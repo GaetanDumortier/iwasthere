@@ -19,6 +19,13 @@ import java.util.*
  */
 class SignatureHelper(private val context: Context, private val canvasView: CanvasView) {
 
+    /**
+     * Save a signature from the provided CanvasView to the local storage of the device.
+     * It takes the full name of the student to include in the filename.
+     *
+     * @param studentName the student's full name, required to format the filename
+     * @return True if saving of file was successful. False on failure
+     */
     fun saveSignature(studentName: String): Boolean {
         val storage: File = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         val folder = File(storage.absolutePath + "/signatures")

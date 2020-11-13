@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "938540092610",
+    "firebase_url": "https://iwasthere-gaetandumortier.firebaseio.com",
+    "project_id": "iwasthere-gaetandumortier",
+    "storage_bucket": "iwasthere-gaetandumortier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938540092610:android:e57dd81c9d7fa92dd8ff5b",
+        "android_client_info": {
+          "package_name": "com.ap.iwasthere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938540092610-bk03elhge99ioq5ia4au85v3k3j4mtur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUpIZC91l4FdsPmtV1gBASFhbGCqhEE88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938540092610-bk03elhge99ioq5ia4au85v3k3j4mtur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

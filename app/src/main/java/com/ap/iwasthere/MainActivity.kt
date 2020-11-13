@@ -5,8 +5,11 @@ import android.content.IntentSender
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.activities.student.StudentSelectActivity
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 /**
  * Main entrypoint of the application.
@@ -19,6 +22,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Initialize firebase connection
+        FirebaseDatabase.getInstance()
+
         try {
             val intent = Intent(this, StudentSelectActivity::class.java)
             startActivity(intent)
@@ -27,20 +33,4 @@ class MainActivity : AppCompatActivity() {
             return
         }
     }
-
-    /*
-    override fun onStop() {
-        super.onStop()
-        val networkConnection = NetworkObserver(applicationContext)
-        networkConnection.removeObservers(this)
-    }
-    */
-
-    /*
-    override fun onDestroy() {
-        super.onDestroy()
-        val networkConnection = NetworkObserver(applicationContext)
-        networkConnection.removeObservers(this)
-    }
-     */
 }

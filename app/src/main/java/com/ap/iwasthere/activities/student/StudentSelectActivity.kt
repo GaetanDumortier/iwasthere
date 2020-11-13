@@ -8,11 +8,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
-import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.Student
+import com.ap.iwasthere.utils.NetworkObserver
 import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.student_select.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Activity class which is responsible for handling student selection.
@@ -23,9 +30,9 @@ import kotlinx.android.synthetic.main.student_select.*
  * @since 12 November 2020
  */
 class StudentSelectActivity : AppCompatActivity() {
-    // TODO: fetch from Firebase. (Map of Student objects?, need toString method)
-    private val students = arrayOf("Gaetan Dumortier", "Gaetan Jean Veronique Dumortier", "Nathan Ebel")
     private lateinit var student: Student
+    private var students: ArrayList<Student> = ArrayList()
+    private var arrayAdapter: ArrayAdapter<Student>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +40,16 @@ class StudentSelectActivity : AppCompatActivity() {
         NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
         supportActionBar?.title = getString(R.string.title_student_select)
 
-        val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, students)
+        //
+        // UI
+        //
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, students)
         txtStudentList.setAdapter(arrayAdapter)
+
+        //
+        // Database
+        //
+        populateStudentsList()
 
         //
         // View Listeners
@@ -74,7 +89,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 val studentName = txtStudentList.text.toString().split("\\s".toRegex()).toTypedArray()
                 this.student =
                     Student(
-                        1,
+                        UUID.randomUUID().toString(),
                         studentName[0],
                         studentName
                             .drop(1).toString()
@@ -120,10 +135,43 @@ class StudentSelectActivity : AppCompatActivity() {
     }
 
     /**
+     * Fetch all current students from the database and add to ArrayList.
+     */
+    private fun populateStudentsList() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("students")
+        val eventListener: ValueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children) {
+                        val student = ds.getValue(Student::class.java)
+
+                        student?.fullName = (StringBuilder())
+                            .append(student?.firstName)
+                            .append("\\s".toRegex())
+                            .append(student?.lastName)
+                            .toString()
+
+                        students.add(student!!)
+                    }
+                    arrayAdapter!!.notifyDataSetChanged()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                SnackbarHelper(layoutStudentSelect).makeAndShow(
+                    getString(R.string.database_error),
+                    Snackbar.LENGTH_LONG
+                )
+            }
+        }
+        usersRef.addListenerForSingleValueEvent(eventListener)
+    }
+
+    /**
      * Verify that the provided student is inside the students list
      */
     private fun isValidStudent(): Boolean {
-        return this.students.contains(txtStudentList.text.toString())
+        return this.students.toString().contains(txtStudentList.text.toString())
     }
 
     private fun hideKeyboard(hide: Boolean) {

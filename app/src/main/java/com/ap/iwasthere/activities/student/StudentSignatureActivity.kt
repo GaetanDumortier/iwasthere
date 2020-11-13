@@ -1,12 +1,7 @@
 package com.ap.iwasthere.activities.student
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SignatureHelper
@@ -43,6 +38,7 @@ class StudentSignatureActivity : AppCompatActivity() {
             //
             // View Listeners
             //
+
             /**
              * StudentSignatureDone: OnClickListener.
              * Will attempt to save the signature to send to the database.
@@ -51,7 +47,7 @@ class StudentSignatureActivity : AppCompatActivity() {
                 if (!canvasView.canvasIsEmpty() && SignatureHelper(
                         applicationContext,
                         canvasView
-                    ).saveSignature(student.getFullName())
+                    ).saveSignature(student.fullName!!)
                 ) {
                     SnackbarHelper(layoutStudentSignature).make(
                         getString(R.string.signature_saved),
