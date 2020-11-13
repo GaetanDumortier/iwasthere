@@ -4,8 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.SignatureHelper
+import com.ap.iwasthere.helpers.SnackbarHelper
+import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.models.Student
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_signature.*
 
 /**
@@ -17,22 +21,59 @@ import kotlinx.android.synthetic.main.student_signature.*
  * @since 13 November 2020
  */
 class StudentSignatureActivity : AppCompatActivity() {
+    private lateinit var canvasView: CanvasView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_signature)
         NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
 
-        val i = intent
-        val student = i.getParcelableExtra<Student>("student")
-        if (student != null) {
-            supportActionBar?.title = getString(R.string.title_student_signature, student.firstName)
+        val student = intent.getParcelableExtra<Student>("student")
+        if (student == null) {
+            returnToSelectActivity()
         } else {
-            startSelectActivity()
+            supportActionBar?.title = getString(R.string.title_student_signature, student.firstName)
+            initializeCanvas()
+
+            //
+            // View Listeners
+            //
+            /**
+             * StudentSignatureDone: OnClickListener.
+             * Will attempt to save the signature to send to the database.
+             */
+            btnSignatureDone.setOnClickListener {
+                if (SignatureHelper(applicationContext, canvasView).saveSignature(student.getFullName())) {
+                    SnackbarHelper().makeAndShow(
+                        layoutStudentSignature,
+                        getString(R.string.signature_saved),
+                        Snackbar.LENGTH_LONG
+                    )
+                } else {
+                    SnackbarHelper().makeAndShow(canvasView, getString(R.string.signature_error))
+                }
+            }
+
+            /**
+             * StudentSignature: OnClickListener.
+             * Will clear the canvas when the reset button is clicked.
+             */
+            btnSignatureReset.setOnClickListener { canvasView.clear() }
         }
     }
 
-    private fun startSelectActivity() {
+    private fun returnToSelectActivity() {
         val studentSelectIntent = Intent(this, StudentSelectActivity::class.java)
         startActivity(studentSelectIntent)
+    }
+
+    /**
+     * Initialize and set the CanvasView for the current context and
+     * add it to the view for the user to draw their signature on.
+     */
+    private fun initializeCanvas() {
+        canvasView = CanvasView(this)
+        signatureCanvas.addView(canvasView, 0)
+        canvasView.requestFocus()
     }
 }

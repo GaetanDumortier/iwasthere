@@ -2,17 +2,17 @@
     <string name="app_name">iWasThere</string>
     <string name="splash_text">initialiseren</string>
 
-    <!-- Student Select -->
+    <!-- StudentSelectActivity -->
     <string name="student_label">Wie ben je?</string>
     <string name="name_placeholder">John Doe</string>
     <string name="select_proceed">Ga verder</string>
 
-    <!-- Student Signature -->
-    <string name="signature_placeholder">Hier tekenen!</string>
+    <!-- StudentSignatureActivity -->
     <string name="signature_done">Bevestigen</string>
     <string name="signature_reset">Wissen</string>
+    <string name="signature_saved">Handtekening opgeslagen!</string>
 
-    <!-- Activity titles (SupportActionbar) -->
+    <!-- Activity titles (shown in the action bar) -->
     <string name="title_student_select">Even kennis maken</string>
     <string name="title_student_signature">Hallo %1$s, even je kribbel zetten</string>
 
@@ -20,5 +20,6 @@
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>
     <string name="invalid_student">De opgegeven student bestaat niet.</string>
     <string name="snackbar_text">Je bent offline. Verbind met het internet om de app te blijven gebruiken.</string>
+    <string name="signature_error">Er is iets fout gegaan tijdens het verwerken van je handtekening!</string>
 
 </resources>

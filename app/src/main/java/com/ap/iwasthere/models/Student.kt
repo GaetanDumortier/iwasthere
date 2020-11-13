@@ -42,6 +42,10 @@ class Student() : Parcelable {
         dest?.writeString(lastName)
     }
 
+    fun getFullName(): String {
+        return """$firstName $lastName"""
+    }
+
     override fun describeContents(): Int {
         return 0;
     }
