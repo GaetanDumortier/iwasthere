@@ -2,7 +2,6 @@ package com.ap.iwasthere.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -40,7 +39,7 @@ class Student() : Parcelable {
             field = """$firstName $lastName"""
         }
 
-    var signatures: ArrayList<StudentSignatures> = ArrayList()
+    var signatures: ArrayList<Signature> = ArrayList()
         get() = field
         set(value) {
             field = value
@@ -66,7 +65,7 @@ class Student() : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(id.toString())
+        dest?.writeString(id)
         dest?.writeString(firstName)
         dest?.writeString(lastName)
     }

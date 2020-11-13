@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.RequiresApi
-import java.util.*
 
 /**
  * A class describing the actions and properties of a student's registered signatures
@@ -12,23 +11,28 @@ import java.util.*
  * @author Gaetan Dumortier
  * @since 13 November 2020
  */
-class StudentSignatures() : Parcelable {
+class Signature() : Parcelable {
     var id: String? = null
         get() = field
         set(value) {
             field = value
         }
-    var date: Date? = null
-        get() = field
-        set(value) {
-            field = value
-        }
-    var signature: String? = null
+    var date: String? = null
         get() = field
         set(value) {
             field = value
         }
     var location: String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
+    var signatureEncoded: String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
+    var studentId: String? = null
         get() = field
         set(value) {
             field = value
@@ -39,30 +43,34 @@ class StudentSignatures() : Parcelable {
      *
      * @param id the unique identifier of the signature
      * @param date the date the signature was placed
-     * @param signature the signature itself
      * @param location the location where the registration happened
+     * @param signature the signature itself
+     * @param studentId the unique identifier of the student
      */
-    constructor(id: String, date: Date, signature: String, location: String) : this() {
+    constructor(id: String, date: String, location: String, signature: String, studentId: String) : this() {
         this.id = id
         this.date = date
-        this.signature = signature
         this.location = location
+        this.signatureEncoded = signature
+        this.studentId = studentId
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     constructor(parcel: Parcel) : this() {
         this.id = parcel.readString()
-        this.date = Date(parcel.readLong())
-        this.signature = parcel.readString()
+        this.date = parcel.readString()
         this.location = parcel.readString()
+        this.signatureEncoded = parcel.readString()
+        this.studentId = parcel.readString()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(id)
-        dest.writeLong(date!!.time)
-        dest.writeString(signature)
+        dest.writeString(date)
         dest.writeString(location)
+        dest.writeString(signatureEncoded)
+        dest.writeString(studentId)
     }
 
     override fun describeContents(): Int {

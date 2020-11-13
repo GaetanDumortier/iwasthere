@@ -144,6 +144,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     for (ds in dataSnapshot.children) {
                         val student = ds.getValue(Student::class.java)
+
                         student?.setFullName()
                         students.add(student!!)
                     }

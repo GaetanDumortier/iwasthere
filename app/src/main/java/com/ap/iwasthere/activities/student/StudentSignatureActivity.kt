@@ -2,20 +2,19 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
+import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_signature.*
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Activity class which will provide a drawable canvas for the user
@@ -74,7 +73,6 @@ class StudentSignatureActivity : AppCompatActivity() {
          * Will clear the canvas when the reset button is clicked.
          */
         btnSignatureReset.setOnClickListener { canvasView.clear() }
-
     }
 
     /**
