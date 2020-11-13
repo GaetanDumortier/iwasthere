@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#E60005</color>
+    <color name="colorPrimaryDark">#B30005</color>
+    <color name="colorAccent">#E1E1E1</color>
+
+    <!-- AP colors -->
+    <color name="apRed">#E60005</color>
+    <color name="apBlack">#232226</color>
+    <color name="apGrey">#E1E1E1</color>
+    <color name="apGreyDark">#68676C</color>
+</resources>
