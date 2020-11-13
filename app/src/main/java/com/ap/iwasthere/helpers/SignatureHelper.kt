@@ -4,9 +4,10 @@ import android.content.Context
 import android.graphics.*
 import android.os.Environment
 import android.util.Base64
-import android.widget.Toast
 import com.ap.iwasthere.models.CanvasView
 import java.io.*
+import java.lang.StringBuilder
+import java.util.*
 
 /**
  * Getting the content of a Canvas and converting it to a Bitmap was a serious pain in the ass.
@@ -24,22 +25,21 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         var success = false
 
         if (!folder.exists()) {
-            success = folder.mkdirs()
-        }
-
-        val name = studentName.replace("\\s".toRegex(), "_")
-        val file = File(folder, String.format("/%s_signature.jpg", name))
-
-        if (!file.exists()) {
             try {
-                success = file.createNewFile()
+                success = folder.mkdirs()
             } catch (e: IOException) {
-                println("Error writing signature image: " + e.message)
+                println("Error creating directory: " + e.message)
             }
         }
 
+        val file = File(folder, formatFileName(studentName))
+        if (!file.exists()) {
+            success = file.createNewFile()
+        }
+
+        val ostream: FileOutputStream?
         try {
-            val ostream = FileOutputStream(file)
+            ostream = FileOutputStream(file)
             val well: Bitmap = canvasView.getBitMap(canvasView)!!
             val save = Bitmap.createBitmap(canvasView.width, canvasView.height, Bitmap.Config.ARGB_8888)
             val paint = Paint()
@@ -55,15 +55,14 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
 
             save.compress(Bitmap.CompressFormat.JPEG, 100, ostream)
             bitMapToString(save)
+
+            ostream.flush()
+            ostream.close()
+            success = true
         } catch (e: NullPointerException) {
-            e.printStackTrace()
-            Toast.makeText(
-                context, "Null error",
-                Toast.LENGTH_SHORT
-            ).show()
+            println("Error writing to file: " + e.message)
         } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            Toast.makeText(context, "File error", Toast.LENGTH_SHORT).show()
+            println("Error with file. Not found?: " + e.message)
         }
 
         return success
@@ -75,6 +74,33 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
 
         userImage1.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         return Base64.encodeToString(b, Base64.DEFAULT)
+    }
+
+    /**
+     * Get the current date + time and append to filename.
+     * This way, we can store multiple signature files without having to overwrite the previous one.
+     * This can be useful to compare signatures of a student.
+     */
+    private fun formatFileName(studentName: String): String {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
+
+        val name = studentName.replace("\\s".toRegex(), "_")
+        val date = String.format(
+            "%s-%s-%s_%s%s_",
+            year.toString(),
+            month.toString(),
+            day.toString(),
+            hour.toString(),
+            minute.toString()
+        )
+
+        // 2020-11-13_1720_GaetanDumortier.jpg
+        return (StringBuilder()).append(date).append(name).append(".jpg").toString()
     }
 
 }

@@ -48,8 +48,7 @@ class StudentSelectActivity : AppCompatActivity() {
             if (txtStudentList.text.isNotEmpty() && !isValidStudent()) {
                 txtStudentList.text.clear()
 
-                SnackbarHelper().makeAndShow(
-                    view,
+                SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
                     BaseTransientBottomBar.LENGTH_LONG
                 )
@@ -64,8 +63,7 @@ class StudentSelectActivity : AppCompatActivity() {
             if (!isValidStudent()) {
                 txtStudentList.text.clear()
 
-                SnackbarHelper().makeAndShow(
-                    view,
+                SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
                     BaseTransientBottomBar.LENGTH_LONG
                 )
@@ -108,8 +106,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 txtStudentList.text.clear()
                 hideKeyboard(true)
 
-                SnackbarHelper().makeAndShow(
-                    view,
+                SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
                     BaseTransientBottomBar.LENGTH_LONG
                 )

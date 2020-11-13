@@ -20,6 +20,8 @@
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>
     <string name="invalid_student">De opgegeven student bestaat niet.</string>
     <string name="snackbar_text">Je bent offline. Verbind met het internet om de app te blijven gebruiken.</string>
+
     <string name="signature_error">Er is iets fout gegaan tijdens het verwerken van je handtekening!</string>
+    <string name="signature_empty">Je hebt geen handtekening gezet!</string>
 
 </resources>

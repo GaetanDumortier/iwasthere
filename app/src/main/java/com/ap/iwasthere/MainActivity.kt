@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, StudentSelectActivity::class.java)
             startActivity(intent)
         } catch (e: IntentSender.SendIntentException) {
-            SnackbarHelper().makeAndShow(layoutMain, getString(R.string.intent_error))
+            SnackbarHelper(layoutMain).makeAndShow(getString(R.string.intent_error))
             return
         }
     }

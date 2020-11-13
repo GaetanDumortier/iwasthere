@@ -10,8 +10,8 @@ import com.google.android.material.snackbar.Snackbar
  * @author Gaetan Dumortier
  * @since 12 November 2020
  */
-class SnackbarHelper {
-    fun makeAndShow(view: View, text: CharSequence, duration: Int = BaseTransientBottomBar.LENGTH_INDEFINITE) {
+class SnackbarHelper(private val view: View) {
+    fun makeAndShow(text: CharSequence, duration: Int = BaseTransientBottomBar.LENGTH_INDEFINITE) {
         val snackbar = Snackbar.make(
             view,
             text,
@@ -20,7 +20,14 @@ class SnackbarHelper {
         snackbar.show()
     }
 
-    fun make(view: View, text: String, duration: Int = BaseTransientBottomBar.LENGTH_INDEFINITE): Snackbar {
+    fun make(text: String, duration: Int = BaseTransientBottomBar.LENGTH_INDEFINITE): Snackbar {
         return Snackbar.make(view, text, duration)
+    }
+
+    fun fullWidth(snackbar: Snackbar): Snackbar {
+        val layout = snackbar.view as Snackbar.SnackbarLayout
+        layout.minimumWidth = view.width
+
+        return snackbar
     }
 }

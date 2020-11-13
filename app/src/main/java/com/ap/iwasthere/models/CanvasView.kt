@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.*
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
+import com.ap.iwasthere.R
+import com.ap.iwasthere.activities.student.StudentSignatureActivity
 
 /**
  * A class which is responsible for drawing a Canvas, and adding a bitmap to it.
@@ -15,7 +18,7 @@ import android.view.View
 class CanvasView(context: Context?) : View(context) {
     private var bitmap: Bitmap? = null
     private var canvas: Canvas = Canvas()
-    private var path: Path = Path()
+    var path: Path = Path()
     private var bitmapPaint: Paint? = null
     private var paint: Paint? = null
 
@@ -46,6 +49,7 @@ class CanvasView(context: Context?) : View(context) {
     fun clear() {
         canvas.drawColor(0, PorterDuff.Mode.CLEAR)
         path.reset()
+        toggleDoneButtonState()
         invalidate()
     }
 
@@ -81,6 +85,16 @@ class CanvasView(context: Context?) : View(context) {
     override fun onDraw(canvas: Canvas) {
         canvas.drawBitmap(bitmap!!, 0f, 0f, bitmapPaint)
         canvas.drawPath(path, paint!!)
+        toggleDoneButtonState()
+    }
+
+    fun canvasIsEmpty(): Boolean {
+        return path.isEmpty
+    }
+
+    private fun toggleDoneButtonState() {
+        val doneButton = (context as StudentSignatureActivity).findViewById<Button>(R.id.btnSignatureDone)
+        doneButton.isEnabled = !canvasIsEmpty()
     }
 
 }

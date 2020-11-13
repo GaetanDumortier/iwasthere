@@ -1,7 +1,12 @@
 package com.ap.iwasthere.activities.student
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SignatureHelper
@@ -43,14 +48,20 @@ class StudentSignatureActivity : AppCompatActivity() {
              * Will attempt to save the signature to send to the database.
              */
             btnSignatureDone.setOnClickListener {
-                if (SignatureHelper(applicationContext, canvasView).saveSignature(student.getFullName())) {
-                    SnackbarHelper().makeAndShow(
-                        layoutStudentSignature,
+                if (!canvasView.canvasIsEmpty() && SignatureHelper(
+                        applicationContext,
+                        canvasView
+                    ).saveSignature(student.getFullName())
+                ) {
+                    SnackbarHelper(layoutStudentSignature).make(
                         getString(R.string.signature_saved),
                         Snackbar.LENGTH_LONG
-                    )
+                    ).setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show()
                 } else {
-                    SnackbarHelper().makeAndShow(canvasView, getString(R.string.signature_error))
+                    SnackbarHelper(canvasView).makeAndShow(
+                        getString(R.string.signature_error),
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             }
 
