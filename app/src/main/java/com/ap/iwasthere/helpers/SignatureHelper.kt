@@ -5,6 +5,7 @@ import android.graphics.*
 import android.os.Environment
 import android.util.Base64
 import com.ap.iwasthere.models.CanvasView
+import com.ap.iwasthere.models.Student
 import java.io.*
 import java.lang.StringBuilder
 import java.util.*
@@ -23,10 +24,10 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
      * Save a signature from the provided CanvasView to the local storage of the device.
      * It takes the full name of the student to include in the filename.
      *
-     * @param studentName the student's full name, required to format the filename
+     * @param student the student Object, required to format the filename
      * @return True if saving of file was successful. False on failure
      */
-    fun saveSignature(studentName: String): Boolean {
+    fun saveSignature(student: Student): Boolean {
         val storage: File = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         val folder = File(storage.absolutePath + "/signatures")
         var success = false
@@ -39,7 +40,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
             }
         }
 
-        val file = File(folder, formatFileName(studentName))
+        val file = File(folder, formatFileName(student))
         if (!file.exists()) {
             success = file.createNewFile()
         }
@@ -88,7 +89,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
      * This way, we can store multiple signature files without having to overwrite the previous one.
      * This can be useful to compare signatures of a student.
      */
-    private fun formatFileName(studentName: String): String {
+    private fun formatFileName(student: Student): String {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -96,7 +97,8 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        val name = studentName.replace("\\s".toRegex(), "_")
+        student.setFullName()
+        val name = student.fullName!!.replace("\\s".toRegex(), "_")
         val date = String.format(
             "%s-%s-%s_%s%s_",
             year.toString(),

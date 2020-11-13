@@ -8,13 +8,18 @@
     <string name="select_proceed">Ga verder</string>
 
     <!-- StudentSignatureActivity -->
-    <string name="signature_done">Bevestigen</string>
+    <string name="signature_submit">Bevestigen</string>
     <string name="signature_reset">Wissen</string>
     <string name="signature_saved">Handtekening opgeslagen!</string>
+
+    <!-- SignatureDoneActivity -->
+    <string name="signature_done">Je bent successvol geregistreerd!</string>
+    <string name="signature_startover">Nieuwe registratie</string>
 
     <!-- Activity titles (shown in the action bar) -->
     <string name="title_student_select">Even kennis maken</string>
     <string name="title_student_signature">Hallo %1$s, even je kribbel zetten</string>
+    <string name="title_signature_done">Helemaal klaar!</string>
 
     <!-- Errors -->
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>

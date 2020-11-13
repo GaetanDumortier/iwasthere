@@ -49,7 +49,7 @@ class StudentSelectActivity : AppCompatActivity() {
         //
         // Database
         //
-        populateStudentsList()
+        populateStudentsListFromDb()
 
         //
         // View Listeners
@@ -137,7 +137,7 @@ class StudentSelectActivity : AppCompatActivity() {
     /**
      * Fetch all current students from the database and add to ArrayList.
      */
-    private fun populateStudentsList() {
+    private fun populateStudentsListFromDb() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("students")
         val eventListener: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

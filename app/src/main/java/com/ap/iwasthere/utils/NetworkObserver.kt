@@ -44,6 +44,7 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
                     R.string.snackbar_text,
                     BaseTransientBottomBar.LENGTH_INDEFINITE
                 )
+                snackbar?.animationMode = Snackbar.ANIMATION_MODE_SLIDE
                 val layout = snackbar?.view as Snackbar.SnackbarLayout
                 layout.minimumWidth = view.width
 

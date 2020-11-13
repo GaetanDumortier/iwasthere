@@ -29,6 +29,14 @@
         <activity
             android:name=".activities.student.StudentSignatureActivity"
             android:parentActivityName=".activities.student.StudentSelectActivity" />
+
+        <!--
+            This activity could have the parentActivityName set to StudentSelectActivity,
+            but I personally don't like the look of the back-arrow in combination with the "New registration" button, so.
+        -->
+        <activity
+            android:name=".activities.student.SignatureSubmittedActivity"
+            android:noHistory="true" />
     </application>
 
 </manifest>
