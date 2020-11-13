@@ -20,25 +20,30 @@ class Student() : Parcelable {
         set(value) {
             field = value
         }
+
     var firstName: String? = null
         get() = field
         set(value) {
             field = value
         }
+
     var lastName: String? = null
         get() = field
         set(value) {
             field = value
         }
+
+    var fullName: String? = null
+        get() = field
+        // We can pre-define the fields here. Will never really change
+        set(value) {
+            field = """$firstName $lastName"""
+        }
+
     var signatures: ArrayList<StudentSignatures> = ArrayList()
         get() = field
         set(value) {
             field = value
-        }
-    var fullName: String? = null
-        get() = field
-        set(value) {
-            field = """$firstName $lastName"""
         }
 
     /**
@@ -52,21 +57,18 @@ class Student() : Parcelable {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
-        this.fullName = "$firstName $lastName"
     }
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()
         firstName = parcel.readString()
         lastName = parcel.readString()
-        fullName = parcel.readString()
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id.toString())
         dest?.writeString(firstName)
         dest?.writeString(lastName)
-        dest?.writeString(fullName)
     }
 
     override fun describeContents(): Int {
@@ -81,6 +83,10 @@ class Student() : Parcelable {
         override fun newArray(size: Int): Array<Student?> {
             return arrayOfNulls(size)
         }
+    }
+
+    fun setFullName() {
+        this.fullName = "$firstName $lastName"
     }
 
     override fun toString(): String {

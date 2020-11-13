@@ -117,7 +117,7 @@ class StudentSelectActivity : AppCompatActivity() {
          * Will verify if the selected value is a valid student.
          */
         btnStudentSelect.setOnClickListener { view ->
-            if (!isValidStudent()) {
+            if (!isValidStudent() || txtStudentList.text.isEmpty()) {
                 txtStudentList.text.clear()
                 hideKeyboard(true)
 
@@ -144,13 +144,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     for (ds in dataSnapshot.children) {
                         val student = ds.getValue(Student::class.java)
-
-                        student?.fullName = (StringBuilder())
-                            .append(student?.firstName)
-                            .append("\\s".toRegex())
-                            .append(student?.lastName)
-                            .toString()
-
+                        student?.setFullName()
                         students.add(student!!)
                     }
                     arrayAdapter!!.notifyDataSetChanged()
