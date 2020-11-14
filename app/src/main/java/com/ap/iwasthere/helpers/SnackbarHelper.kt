@@ -1,6 +1,7 @@
 package com.ap.iwasthere.helpers
 
 import android.view.View
+import androidx.annotation.Nullable
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
@@ -17,17 +18,12 @@ class SnackbarHelper(private val view: View) {
             text,
             duration
         )
+
+        snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
         snackbar.show()
     }
 
     fun make(text: String, duration: Int = BaseTransientBottomBar.LENGTH_INDEFINITE): Snackbar {
         return Snackbar.make(view, text, duration)
-    }
-
-    fun fullWidth(snackbar: Snackbar): Snackbar {
-        val layout = snackbar.view as Snackbar.SnackbarLayout
-        layout.minimumWidth = view.width
-
-        return snackbar
     }
 }

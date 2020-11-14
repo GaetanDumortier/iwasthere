@@ -2,9 +2,11 @@ package com.ap.iwasthere
 
 import android.content.Intent
 import android.content.IntentSender
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.activities.student.StudentSelectActivity
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*

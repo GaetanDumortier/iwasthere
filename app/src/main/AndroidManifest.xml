@@ -36,7 +36,6 @@
         <activity
             android:name=".activities.admin.AuthenticateActivity"
             android:parentActivityName=".activities.student.StudentSelectActivity" />
-
     </application>
 
 </manifest>

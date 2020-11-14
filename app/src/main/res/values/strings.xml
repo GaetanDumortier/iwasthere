@@ -26,6 +26,7 @@
 
     <!-- Admin AuthenticateActivity -->
     <string name="admin_authenticate_label">Inloggen</string>
+    <string name="admin_incorrect_password">Onjuist wachtwoord ingevuld!</string>
 
     <!-- Admin DashboardActivity -->
     <string name="admin_dashboard_label">Beheer</string>

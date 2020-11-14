@@ -1,28 +1,31 @@
 package com.ap.iwasthere.activities.student
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+
 import com.ap.iwasthere.R
-import com.ap.iwasthere.activities.admin.AuthenticateActivity
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
+import com.ap.iwasthere.utils.UIUtils
+
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
 import kotlinx.android.synthetic.main.student_select.*
-import java.util.*
 import kotlin.collections.ArrayList
+
+import java.util.*
 
 /**
  * Activity class which is responsible for handling student selection.
@@ -33,13 +36,8 @@ import kotlin.collections.ArrayList
  * @since 12 November 2020
  */
 class StudentSelectActivity : AppCompatActivity() {
-    // ActionBarDrawerToggle class for handling the drawer navigation
     private lateinit var toggle: ActionBarDrawerToggle
-
-    // The Student object which got selected from the list
     private lateinit var student: Student
-
-    // The arrayadapter responsible for allowing
     private lateinit var arrayAdapter: ArrayAdapter<Student>
     private var students: ArrayList<Student> = ArrayList()
 
@@ -48,22 +46,16 @@ class StudentSelectActivity : AppCompatActivity() {
         setContentView(R.layout.student_select)
         NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
 
-        //
         // UI
-        //
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        supportActionBar?.title = getString(R.string.title_student_select)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toggle = UIUtils().setActionBarDrawerListener(this)
+        UIUtils().configureSupportActionBar(this, getString(R.string.title_student_select))
 
         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, students)
         txtStudentList.setAdapter(arrayAdapter)
 
-        //
+        UIUtils().navigationActionsListener(this, navView)
+
         // Database
-        //
         populateStudentsListFromDb()
 
         //
@@ -113,7 +105,7 @@ class StudentSelectActivity : AppCompatActivity() {
                             .replace(",", "")
                     )
             }
-            hideKeyboard(true)
+            UIUtils().hideKeyboard(this, true)
         }
 
         /**
@@ -124,7 +116,7 @@ class StudentSelectActivity : AppCompatActivity() {
             if (txtStudentList.text.isNotEmpty()) {
                 txtStudentList.text.clear()
             }
-            hideKeyboard(false)
+            UIUtils().hideKeyboard(this, false)
         }
 
         /**
@@ -134,7 +126,7 @@ class StudentSelectActivity : AppCompatActivity() {
         btnStudentSelect.setOnClickListener { view ->
             if (!isValidStudent() || txtStudentList.text.isEmpty()) {
                 txtStudentList.text.clear()
-                hideKeyboard(true)
+                UIUtils().hideKeyboard(this, true)
 
                 SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
@@ -146,21 +138,6 @@ class StudentSelectActivity : AppCompatActivity() {
                 intent.putExtra("student", this.student)
                 startActivity(intent)
             }
-        }
-
-        /**
-         * NavView: setNavigationItemSelectedListener
-         * Will execute appropriate action, based on menu item clicked
-         */
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_admin -> {
-                    val intent = Intent(this, AuthenticateActivity::class.java)
-                    startActivity(intent)
-                    this.finish()
-                }
-            }
-            true
         }
     }
 
@@ -178,7 +155,7 @@ class StudentSelectActivity : AppCompatActivity() {
                         student?.setFullName()
                         students.add(student!!)
                     }
-                    arrayAdapter!!.notifyDataSetChanged()
+                    arrayAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -189,7 +166,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 )
             }
         }
-        usersRef.addListenerForSingleValueEvent(eventListener)
+        usersRef.addValueEventListener(eventListener)
     }
 
     /**
@@ -197,18 +174,6 @@ class StudentSelectActivity : AppCompatActivity() {
      */
     private fun isValidStudent(): Boolean {
         return this.students.toString().contains(txtStudentList.text.toString())
-    }
-
-    private fun hideKeyboard(hide: Boolean) {
-        val view = this.currentFocus
-        if (view != null) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            if (hide) {
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
-            } else {
-                imm.showSoftInput(view, 0)
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

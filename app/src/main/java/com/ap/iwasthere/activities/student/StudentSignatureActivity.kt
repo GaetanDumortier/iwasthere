@@ -2,14 +2,18 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
+
 import androidx.appcompat.app.AppCompatActivity
+
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
+
 import com.google.android.material.snackbar.Snackbar
+
 import kotlinx.android.synthetic.main.student_signature.*
 
 /**
@@ -32,10 +36,6 @@ class StudentSignatureActivity : AppCompatActivity() {
         if (student == null) {
             returnToSelectActivity()
         }
-
-        //
-        // UI
-        //
         supportActionBar?.title = getString(R.string.title_student_signature, student!!.firstName)
         initializeCanvas()
 
