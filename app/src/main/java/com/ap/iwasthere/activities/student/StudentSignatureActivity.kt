@@ -1,16 +1,22 @@
 package com.ap.iwasthere.activities.student
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.PermissionHelper
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
+import com.eazypermissions.common.model.PermissionResult
+import com.eazypermissions.livedatapermission.PermissionManager
 
 import com.google.android.material.snackbar.Snackbar
 
@@ -30,19 +36,23 @@ class StudentSignatureActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_signature)
-        NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
 
-        val student = intent.getParcelableExtra<Student>("student")
+        //region Observers
+        NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
+        //endregion
+
+        val i = intent
+        val student = i.getParcelableExtra<Student>("student")
         if (student == null) {
             returnToSelectActivity()
         }
+
+        //region UI
         supportActionBar?.title = getString(R.string.title_student_signature, student!!.firstName)
         initializeCanvas()
+        //endregion
 
-        //
-        // View Listeners
-        //
-
+        //region View Listeners
         /**
          * StudentSignatureDone: OnClickListener.
          * Will attempt to save the signature to send to the database.
@@ -69,6 +79,7 @@ class StudentSignatureActivity : AppCompatActivity() {
          * Will clear the canvas when the reset button is clicked.
          */
         btnSignatureReset.setOnClickListener { canvasView.clear() }
+        //endregion
     }
 
     /**
@@ -84,9 +95,11 @@ class StudentSignatureActivity : AppCompatActivity() {
     private fun returnToSelectActivity() {
         val studentSelectIntent = Intent(this, StudentSelectActivity::class.java)
         startActivity(studentSelectIntent)
+        studentSelectIntent.putExtra("reload", true)
         this.finish()
     }
 
+    //region Override functions
     /**
      * Send an intent back to the StudentSelectActivity to prevent another student from
      * re-opening the app (if it was left on the sign-page) and signing for someone else.
@@ -104,4 +117,5 @@ class StudentSignatureActivity : AppCompatActivity() {
         super.onStop()
         this.finish()
     }
+    //endregion
 }

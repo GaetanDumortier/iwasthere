@@ -5,39 +5,41 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-
+import com.ap.iwasthere.BuildConfig
 import com.ap.iwasthere.R
 import com.ap.iwasthere.activities.student.StudentSelectActivity
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.utils.UIUtils
-
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
 import kotlinx.android.synthetic.main.activity_authenticate.*
 import kotlinx.android.synthetic.main.student_select.*
 import kotlinx.android.synthetic.main.student_select.navView
 
 class AuthenticateActivity : AppCompatActivity() {
-    private lateinit var toggle: ActionBarDrawerToggle
+    // When retrieving password from Firebase fails, the password from gradle.properties will be used
+    private var adminPassword = BuildConfig.ADMIN_PASSWORD
 
-    // When retrieving password from Firebase fails, this will be used as fallback password
-    private var adminPassword = "toor"
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authenticate)
 
-        getAdminPassword()
+        //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
         UIUtils().configureSupportActionBar(this, getString(R.string.menu_admin))
+        UIUtils().navigationActionsListener(this, navView)
+        //endregion
 
-        //
-        // View listeners
-        //
+        //region Database
+        getAdminPassword()
+        //endregion
+
+        //region View Listeners
         /**
          * btnAuthenticate: setOnClickListener.
          * Verify if the entered password matches the admin password.
@@ -54,18 +56,7 @@ class AuthenticateActivity : AppCompatActivity() {
                 )
             }
         }
-
-        // Handle navigation clicks
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_start -> {
-                    val intent = Intent(this, StudentSelectActivity::class.java)
-                    startActivity(intent)
-                    this.finish()
-                }
-            }
-            true
-        }
+        //endregion
     }
 
     /**
@@ -89,6 +80,7 @@ class AuthenticateActivity : AppCompatActivity() {
                 )
             }
         }
+
         FirebaseDatabase.getInstance().reference.addListenerForSingleValueEvent(eventListener)
     }
 
@@ -101,10 +93,12 @@ class AuthenticateActivity : AppCompatActivity() {
         return (txtPassword.text.toString().isNotEmpty() && txtPassword.text.toString() == adminPassword)
     }
 
+    //region Overrite functions
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
+    //endregion
 }

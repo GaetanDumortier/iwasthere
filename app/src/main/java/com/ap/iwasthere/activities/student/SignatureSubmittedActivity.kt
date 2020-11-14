@@ -26,6 +26,5 @@ class SignatureSubmittedActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
-
     }
 }

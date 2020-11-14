@@ -2,12 +2,14 @@ package com.ap.iwasthere.helpers
 
 import android.content.Context
 import android.graphics.*
-import android.os.Environment
 import android.util.Base64
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,24 +32,12 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
      * @return True if saving of file was successful. False on failure
      */
     fun saveSignature(student: Student): Boolean {
-        val storage: File = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        val folder = File(storage.absolutePath + "/signatures")
         var success = false
 
-        if (!folder.exists()) {
-            try {
-                success = folder.mkdirs()
-            } catch (e: IOException) {
-                println("Error creating directory: " + e.message)
-            }
-        }
-
-        val file = File(folder, formatFileName(student))
-        if (!file.exists()) {
-            success = file.createNewFile()
-        }
-
+        // Create a temporarily file in the cache directory which we will delete when bitmap has been generated.
+        val file = File.createTempFile("signature", "jpg", context.cacheDir)
         val ostream: FileOutputStream?
+
         try {
             ostream = FileOutputStream(file)
             val well: Bitmap = canvasView.getBitMap(canvasView)!!
@@ -67,8 +57,11 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
             val encoded = bitMapToString(save)
             buildSignature(student, encoded)
 
+            // Clean up resourced and handlers
             ostream.flush()
             ostream.close()
+            file.delete()
+
             success = true
         } catch (e: NullPointerException) {
             println("Error writing to file: " + e.message)

@@ -36,17 +36,33 @@ import java.util.*
  * @since 12 November 2020
  */
 class StudentSelectActivity : AppCompatActivity() {
+    // Holds the ActionBarDrawerToggle class
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var student: Student
+
+    // Holds the ArrayAdapter used for the AutoCompleteTextView
     private lateinit var arrayAdapter: ArrayAdapter<Student>
+
+    // Holds the Student object that is selected from ArrayAdapter
+    private lateinit var student: Student
+
+    // Holds a list of Student objects, retrieved from the database
     private var students: ArrayList<Student> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_select)
-        NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
 
-        // UI
+        val i = intent
+        val isReload = intent.getBooleanExtra("reload", false)
+        if (isReload) {
+            this.recreate()
+        }
+
+        //region Observers
+        NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
+        //endregion
+
+        //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
         UIUtils().configureSupportActionBar(this, getString(R.string.title_student_select))
 
@@ -54,14 +70,13 @@ class StudentSelectActivity : AppCompatActivity() {
         txtStudentList.setAdapter(arrayAdapter)
 
         UIUtils().navigationActionsListener(this, navView)
+        //endregion
 
-        // Database
+        //region Database
         populateStudentsListFromDb()
+        //endregion
 
-        //
-        // View Listeners
-        //
-
+        //region View Listeners
         /**
          * StudentList: OnFocusChangeListener.
          * Will check if the provided student is valid and show a message if not
@@ -139,6 +154,7 @@ class StudentSelectActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        //endregion
     }
 
     /**
@@ -150,6 +166,7 @@ class StudentSelectActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (ds in dataSnapshot.children) {
+                        students.clear()
                         val student = ds.getValue(Student::class.java)
 
                         student?.setFullName()
@@ -169,17 +186,16 @@ class StudentSelectActivity : AppCompatActivity() {
         usersRef.addValueEventListener(eventListener)
     }
 
-    /**
-     * Verify that the provided student is inside the students list
-     */
     private fun isValidStudent(): Boolean {
         return this.students.toString().contains(txtStudentList.text.toString())
     }
 
+    //region Override functions
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
+    //endregion
 }

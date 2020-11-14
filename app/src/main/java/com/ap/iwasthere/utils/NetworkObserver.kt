@@ -49,29 +49,12 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
                 layout.minimumWidth = view.width
 
                 snackbar?.show()
-                enableAllInput(view, false)
+                UIUtils().enableAllInput(view, false)
             } else {
                 snackbar?.dismiss()
-                enableAllInput(view, true)
+                UIUtils().enableAllInput(view, true)
             }
         })
-    }
-
-    /**
-     * Loop through all the children of a provided view, and disable all inputs
-     * when we are not connected to the internet.
-     *
-     * @param view the view to check
-     * @param enabled whether to enable the children or not
-     */
-    private fun enableAllInput(view: View, enabled: Boolean) {
-        view.isEnabled = enabled
-        if (view is ViewGroup) {
-            for (i in 0 until view.childCount) {
-                val child = view.getChildAt(i)
-                enableAllInput(child, enabled)
-            }
-        }
     }
 
     private var connectivityManager: ConnectivityManager =

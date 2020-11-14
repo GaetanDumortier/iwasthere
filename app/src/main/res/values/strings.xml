@@ -31,6 +31,11 @@
     <!-- Admin DashboardActivity -->
     <string name="admin_dashboard_label">Beheer</string>
 
+    <!-- PermissionErrorActivity -->
+    <string name="permission_error">De app moet toegang hebben tot je locatie.</string>
+    <string name="permission_error_sub">Geef de app toegang tot je locatie om verder te kunnen.</string>
+    <string name="permission_retry">Open instellingen</string>
+
     <!-- Errors -->
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>
     <string name="invalid_student">De opgegeven student bestaat niet.</string>
@@ -42,6 +47,7 @@
     <string name="database_error">Er is iets fout gegaan tijdens het ophalen van de data!</string>
     <string name="menu_admin">Beheer</string>
     <string name="menu_start">Start</string>
+
     <string name="authenticate_password">Wachtwoord</string>
     <string name="authenticate_login">Login</string>
 

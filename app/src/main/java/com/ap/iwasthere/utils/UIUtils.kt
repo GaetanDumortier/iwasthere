@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +65,23 @@ class UIUtils {
     fun configureSupportActionBar(activity: AppCompatActivity, title: String) {
         activity.supportActionBar?.title = title
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    /**
+     * Loop through all the children of a provided view, and disable all inputs
+     * when we are not connected to the internet.
+     *
+     * @param view the view to check
+     * @param enabled whether to enable the children or not
+     */
+    fun enableAllInput(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                enableAllInput(child, enabled)
+            }
+        }
     }
 
     /**
