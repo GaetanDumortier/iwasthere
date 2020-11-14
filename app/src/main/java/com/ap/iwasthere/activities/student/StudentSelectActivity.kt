@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
+import com.ap.iwasthere.activities.admin.AuthenticateActivity
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
@@ -30,19 +33,31 @@ import kotlin.collections.ArrayList
  * @since 12 November 2020
  */
 class StudentSelectActivity : AppCompatActivity() {
+    // ActionBarDrawerToggle class for handling the drawer navigation
+    private lateinit var toggle: ActionBarDrawerToggle
+
+    // The Student object which got selected from the list
     private lateinit var student: Student
+
+    // The arrayadapter responsible for allowing
+    private lateinit var arrayAdapter: ArrayAdapter<Student>
     private var students: ArrayList<Student> = ArrayList()
-    private var arrayAdapter: ArrayAdapter<Student>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_select)
         NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
-        supportActionBar?.title = getString(R.string.title_student_select)
 
         //
         // UI
         //
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.title = getString(R.string.title_student_select)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, students)
         txtStudentList.setAdapter(arrayAdapter)
 
@@ -132,6 +147,21 @@ class StudentSelectActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        /**
+         * NavView: setNavigationItemSelectedListener
+         * Will execute appropriate action, based on menu item clicked
+         */
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_admin -> {
+                    val intent = Intent(this, AuthenticateActivity::class.java)
+                    startActivity(intent)
+                    this.finish()
+                }
+            }
+            true
+        }
     }
 
     /**
@@ -179,5 +209,12 @@ class StudentSelectActivity : AppCompatActivity() {
                 imm.showSoftInput(view, 0)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

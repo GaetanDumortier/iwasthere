@@ -8,9 +8,10 @@ import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
 import java.io.*
-import java.lang.StringBuilder
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * Getting the content of a Canvas and converting it to a Bitmap was a serious pain in the ass.
@@ -64,7 +65,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
 
             save.compress(Bitmap.CompressFormat.JPEG, 100, ostream)
             val encoded = bitMapToString(save)
-            buildSignature(student, encoded!!)
+            buildSignature(student, encoded)
 
             ostream.flush()
             ostream.close()
@@ -78,12 +79,12 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         return success
     }
 
-    private fun bitMapToString(resource: Bitmap): String? {
-        val baos = ByteArrayOutputStream()
-        val b: ByteArray = baos.toByteArray()
+    private fun bitMapToString(resource: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
 
-        resource.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        return Base64.encodeToString(b, Base64.DEFAULT)
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     /**
@@ -91,18 +92,17 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
      * @param resourceEncoded the signature as base64 encoded string
      */
     private fun buildSignature(student: Student, resourceEncoded: String) {
-        val dateFormatter: DateFormat = DateFormat.getDateInstance()
-        dateFormatter.isLenient = false
+        val format: DateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH)
 
-        var signature: Signature? = null
+        val signature: Signature?
         val signatureId = UUID.randomUUID().toString()
-        val date = dateFormatter.format(Date())
+        val date = format.format(Date())
         val location = "Antwerp" // TODO: retrieve from IPHelper
 
         signature = Signature(signatureId, date, location, resourceEncoded, student.id!!)
         student.signatures.add(signature)
 
-        // Add the signature to the user
+        // Add the signature to the user in the database.
         FirebaseHelper().addSignature(student.id!!, signature)
     }
 

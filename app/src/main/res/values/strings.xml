@@ -2,6 +2,9 @@
     <string name="app_name">iWasThere</string>
     <string name="splash_text">initialiseren</string>
 
+    <string name="drawer_open">Open menu</string>
+    <string name="drawer_close">Sluit menu</string>
+
     <!-- StudentSelectActivity -->
     <string name="student_label">Wie ben je?</string>
     <string name="name_placeholder">John Doe</string>
@@ -21,6 +24,12 @@
     <string name="title_student_signature">Hallo %1$s, even je kribbel zetten</string>
     <string name="title_signature_done">Helemaal klaar!</string>
 
+    <!-- Admin AuthenticateActivity -->
+    <string name="admin_authenticate_label">Inloggen</string>
+
+    <!-- Admin DashboardActivity -->
+    <string name="admin_dashboard_label">Beheer</string>
+
     <!-- Errors -->
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>
     <string name="invalid_student">De opgegeven student bestaat niet.</string>
@@ -30,5 +39,9 @@
     <string name="signature_empty">Je hebt geen handtekening gezet!</string>
 
     <string name="database_error">Er is iets fout gegaan tijdens het ophalen van de data!</string>
+    <string name="menu_admin">Beheer</string>
+    <string name="menu_start">Start</string>
+    <string name="authenticate_password">Wachtwoord</string>
+    <string name="authenticate_login">Login</string>
 
 </resources>

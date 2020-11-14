@@ -7,14 +7,10 @@ import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
-import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_signature.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Activity class which will provide a drawable canvas for the user

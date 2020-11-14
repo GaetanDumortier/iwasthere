@@ -27,7 +27,7 @@ class Signature() : Parcelable {
         set(value) {
             field = value
         }
-    var signatureEncoded: String? = null
+    var signature: String? = null
         get() = field
         set(value) {
             field = value
@@ -44,14 +44,14 @@ class Signature() : Parcelable {
      * @param id the unique identifier of the signature
      * @param date the date the signature was placed
      * @param location the location where the registration happened
-     * @param signature the signature itself
+     * @param signature the signature itself, encoded as a base64 string
      * @param studentId the unique identifier of the student
      */
     constructor(id: String, date: String, location: String, signature: String, studentId: String) : this() {
         this.id = id
         this.date = date
         this.location = location
-        this.signatureEncoded = signature
+        this.signature = signature
         this.studentId = studentId
     }
 
@@ -60,7 +60,7 @@ class Signature() : Parcelable {
         this.id = parcel.readString()
         this.date = parcel.readString()
         this.location = parcel.readString()
-        this.signatureEncoded = parcel.readString()
+        this.signature = parcel.readString()
         this.studentId = parcel.readString()
     }
 
@@ -69,7 +69,7 @@ class Signature() : Parcelable {
         dest.writeString(id)
         dest.writeString(date)
         dest.writeString(location)
-        dest.writeString(signatureEncoded)
+        dest.writeString(signature)
         dest.writeString(studentId)
     }
 

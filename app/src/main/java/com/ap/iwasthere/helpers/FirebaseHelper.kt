@@ -22,7 +22,7 @@ class FirebaseHelper {
      * @param student the student object to add
      */
     fun addStudent(student: Student) {
-        rootRef.child("students").child(student.id!!).setValue(student)
+        rootRef.child(studentsRef).child(student.id!!).setValue(student)
     }
 
     /**
