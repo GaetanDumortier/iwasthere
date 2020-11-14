@@ -22,6 +22,7 @@ class SignatureSubmittedActivity : AppCompatActivity() {
         btnRestart.setOnClickListener {
             val intent = Intent(this, StudentSelectActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
     }

@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.ap.iwasthere"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -19,6 +19,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/admin',
+                            'src/main/res/layouts/student',
+                            'src/main/res/layouts/main',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
         }
     }
 }
