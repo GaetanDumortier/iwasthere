@@ -52,7 +52,6 @@ class StudentSelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_select)
 
-        val i = intent
         val isReload = intent.getBooleanExtra("reload", false)
         if (isReload) {
             this.recreate()
