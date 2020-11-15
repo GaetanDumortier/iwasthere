@@ -44,7 +44,7 @@ class LocationHelper(private val activity: Activity) {
 
     private suspend fun getLastLocation(): Location? {
         if (!isLocationEnabled()) {
-            Log.d("LocationHelper", "Location cant be fetched through either GPS or network.")
+            Log.d("LocationHelper", "Location cant be fetched through either GPS or network provider.")
             return null
         }
 
