@@ -1,27 +1,20 @@
 package com.ap.iwasthere.activities.student
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.LocationHelper
-import com.ap.iwasthere.helpers.PermissionHelper
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
-import com.eazypermissions.common.model.PermissionResult
-import com.eazypermissions.livedatapermission.PermissionManager
-
 import com.google.android.material.snackbar.Snackbar
-
 import kotlinx.android.synthetic.main.student_signature.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Activity class which will provide a drawable canvas for the user
@@ -31,15 +24,16 @@ import kotlinx.android.synthetic.main.student_signature.*
  * @author Gaetan Dumortier
  * @since 13 November 2020
  */
-class StudentSignatureActivity : AppCompatActivity() {
+class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var canvasView: CanvasView
-    var location: String? = null
+
+    private var job: Job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_signature)
-
-        location = LocationHelper(this).getLastLocation()
 
         //region Observers
         NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
@@ -62,19 +56,21 @@ class StudentSignatureActivity : AppCompatActivity() {
          * Will attempt to save the signature to send to the database.
          */
         btnSignatureDone.setOnClickListener {
-            if (!canvasView.canvasIsEmpty() && SignatureHelper(
-                    this,
-                    canvasView
-                ).saveSignature(student)
-            ) {
-                val selectIntent = Intent(this, SignatureSubmittedActivity::class.java)
-                startActivity(selectIntent)
-                this.finish()
-            } else {
-                SnackbarHelper(canvasView).makeAndShow(
-                    getString(R.string.signature_error),
-                    Snackbar.LENGTH_LONG
-                )
+            launch {
+                if (!canvasView.canvasIsEmpty() && SignatureHelper(
+                        this@StudentSignatureActivity,
+                        canvasView
+                    ).saveSignature(student)
+                ) {
+                    val selectIntent = Intent(this@StudentSignatureActivity, SignatureSubmittedActivity::class.java)
+                    startActivity(selectIntent)
+                    this@StudentSignatureActivity.finish()
+                } else {
+                    SnackbarHelper(canvasView).makeAndShow(
+                        getString(R.string.signature_error),
+                        Snackbar.LENGTH_LONG
+                    )
+                }
             }
         }
 

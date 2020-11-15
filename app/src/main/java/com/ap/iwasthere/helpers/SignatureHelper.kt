@@ -3,7 +3,6 @@ package com.ap.iwasthere.helpers
 import android.app.Activity
 import android.graphics.*
 import android.util.Base64
-import com.ap.iwasthere.activities.student.StudentSignatureActivity
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
@@ -15,7 +14,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 /**
  * Getting the content of a Canvas and converting it to a Bitmap was a serious pain in the ass.
  * Many thanks to this guide:
@@ -25,6 +23,8 @@ import java.util.*
  * @since 13 November 2020
  */
 class SignatureHelper(private val activity: Activity, private val canvasView: CanvasView) {
+    private lateinit var location: String
+
     /**
      * Save a signature from the provided CanvasView to the local storage of the device.
      * It takes the full name of the student to include in the filename.
@@ -32,8 +32,10 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
      * @param student the student Object, required to format the filename
      * @return True if saving of file was successful. False on failure
      */
-    fun saveSignature(student: Student): Boolean {
+    suspend fun saveSignature(student: Student): Boolean {
         var success = false
+
+        this.location = LocationHelper(activity).getLocation()
 
         // Create a temporarily file in the cache directory which we will delete when bitmap has been generated.
         val file = File.createTempFile("signature", "jpg", activity.cacheDir)
@@ -91,9 +93,8 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
         val signature: Signature?
         val signatureId = UUID.randomUUID().toString()
         val date = format.format(Date())
-        val location = "dd"
 
-        signature = Signature(signatureId, date, location, resourceEncoded, student.id!!)
+        signature = Signature(signatureId, date, this.location, resourceEncoded, student.id!!)
         student.signatures.add(signature)
 
         // Add the signature to the user in the database.

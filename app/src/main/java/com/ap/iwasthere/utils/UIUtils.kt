@@ -95,18 +95,23 @@ class UIUtils {
      */
     fun navigationActionsListener(activity: AppCompatActivity, navView: NavigationView) {
         navView.setNavigationItemSelectedListener {
-            val view: View = activity.currentFocus!!
+            val view: View? = activity.currentFocus!!
+            if (view == null) {
+                val intent = Intent(activity, StudentSelectActivity::class.java)
+                activity.startActivity(intent)
+                activity.finish()
+            }
 
             when (it.itemId) {
                 R.id.menu_admin -> {
-                    if (view.sourceLayoutResId != R.layout.activity_authenticate) {
+                    if (view!!.sourceLayoutResId != R.layout.activity_authenticate) {
                         val intent = Intent(activity, AuthenticateActivity::class.java)
                         activity.startActivity(intent)
                         activity.finish()
                     }
                 }
                 R.id.menu_start -> {
-                    if (view.sourceLayoutResId != R.layout.student_select) {
+                    if (view!!.sourceLayoutResId != R.layout.student_select) {
                         val intent = Intent(activity, StudentSelectActivity::class.java)
                         activity.startActivity(intent)
                         activity.finish()

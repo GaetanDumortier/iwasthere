@@ -3,16 +3,18 @@ package com.ap.iwasthere.helpers
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
-import com.ap.iwasthere.activities.PermissionErrorActivity
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.tasks.await
 import java.util.*
+
 
 /**
  * A simple helper class to fetch the last known location of the device.
@@ -29,10 +31,30 @@ class LocationHelper(private val activity: Activity) {
     private var geocoder: Geocoder = Geocoder(activity.applicationContext, Locale.getDefault())
     private var location: Location? = null
 
+    suspend fun getLocation(): String {
+        var address = "Fout bij localisatie."
+        val loc = getLastLocation()
+        if (loc != null) {
+            val addressList = geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
+            address = addressList[0].getAddressLine(0)
+        }
+
+        return address
+    }
+
+    private suspend fun getLastLocation(): Location? {
+        if (!isLocationEnabled()) {
+            Log.d("LocationHelper", "Location cant be fetched through either GPS or network.")
+            return null
+        }
+
+        return fusedLocationProviderClient.lastLocation.await()
+    }
+
+    /*
     fun getLastLocation(): String {
         var locationStr = ""
 
-        // TODO: Modify code to wait for listener to complete (async/await/coroutines)
         if (isLocationEnabled()) {
             fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
                 val loc: Location? = task.result
@@ -47,6 +69,8 @@ class LocationHelper(private val activity: Activity) {
                     geocoder.getFromLocation(this.location!!.latitude, this.location!!.longitude, 1)
                 locationStr = addressList[0].getAddressLine(0)
                 Log.d("LocationHelper", "in listener: $locationStr")
+            }.addOnFailureListener {
+                Log.d("LocationHelper", "Failed to fetch location: " + it.message)
             }
             return locationStr
         } else {
@@ -54,9 +78,8 @@ class LocationHelper(private val activity: Activity) {
             activity.startActivity(intent)
             activity.finish()
         }
-
-        return locationStr
     }
+    */
 
     private fun fetchNewLocation() {
         locationRequest = LocationRequest()
@@ -82,5 +105,4 @@ class LocationHelper(private val activity: Activity) {
             LocationManager.NETWORK_PROVIDER
         )
     }
-
 }
