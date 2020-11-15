@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.LocationHelper
 import com.ap.iwasthere.helpers.PermissionHelper
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
@@ -32,10 +33,13 @@ import kotlinx.android.synthetic.main.student_signature.*
  */
 class StudentSignatureActivity : AppCompatActivity() {
     private lateinit var canvasView: CanvasView
+    var location: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_signature)
+
+        location = LocationHelper(this).getLastLocation()
 
         //region Observers
         NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
@@ -59,7 +63,7 @@ class StudentSignatureActivity : AppCompatActivity() {
          */
         btnSignatureDone.setOnClickListener {
             if (!canvasView.canvasIsEmpty() && SignatureHelper(
-                    applicationContext,
+                    this,
                     canvasView
                 ).saveSignature(student)
             ) {

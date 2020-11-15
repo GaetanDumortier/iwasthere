@@ -18,12 +18,10 @@ import com.ap.iwasthere.activities.student.StudentSelectActivity
  * @since 14 November 2020
  */
 class PermissionHelper(private val activity: AppCompatActivity) {
-
     /**
      * Check the current permissions of the application against the required permission.
      * If they are not granted, it will prompt again.
      * Else it will navigate to the StudentSelect activity
-     *
      */
     fun checkPermissions() {
         when (PackageManager.PERMISSION_GRANTED) {

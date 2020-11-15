@@ -5,27 +5,23 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
-
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
 import kotlinx.android.synthetic.main.student_select.*
+import java.util.*
 import kotlin.collections.ArrayList
 
-import java.util.*
 
 /**
  * Activity class which is responsible for handling student selection.
@@ -36,16 +32,9 @@ import java.util.*
  * @since 12 November 2020
  */
 class StudentSelectActivity : AppCompatActivity() {
-    // Holds the ActionBarDrawerToggle class
     private lateinit var toggle: ActionBarDrawerToggle
-
-    // Holds the ArrayAdapter used for the AutoCompleteTextView
     private lateinit var arrayAdapter: ArrayAdapter<Student>
-
-    // Holds the Student object that is selected from ArrayAdapter
     private lateinit var student: Student
-
-    // Holds a list of Student objects, retrieved from the database
     private var students: ArrayList<Student> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {

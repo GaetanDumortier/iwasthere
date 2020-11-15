@@ -1,8 +1,9 @@
 package com.ap.iwasthere.helpers
 
-import android.content.Context
+import android.app.Activity
 import android.graphics.*
 import android.util.Base64
+import com.ap.iwasthere.activities.student.StudentSignatureActivity
 import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
@@ -23,7 +24,7 @@ import java.util.*
  * @author Gaetan Dumortier
  * @since 13 November 2020
  */
-class SignatureHelper(private val context: Context, private val canvasView: CanvasView) {
+class SignatureHelper(private val activity: Activity, private val canvasView: CanvasView) {
     /**
      * Save a signature from the provided CanvasView to the local storage of the device.
      * It takes the full name of the student to include in the filename.
@@ -35,7 +36,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         var success = false
 
         // Create a temporarily file in the cache directory which we will delete when bitmap has been generated.
-        val file = File.createTempFile("signature", "jpg", context.cacheDir)
+        val file = File.createTempFile("signature", "jpg", activity.cacheDir)
         val ostream: FileOutputStream?
 
         try {
@@ -64,7 +65,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
 
             success = true
         } catch (e: NullPointerException) {
-            println("Error writing to file: " + e.message)
+            println("Error writing to file: " + e.printStackTrace())
         } catch (e: FileNotFoundException) {
             println("Error with file. Not found?: " + e.message)
         }
@@ -90,7 +91,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         val signature: Signature?
         val signatureId = UUID.randomUUID().toString()
         val date = format.format(Date())
-        val location = "Antwerp" // TODO: retrieve from IPHelper
+        val location = "dd"
 
         signature = Signature(signatureId, date, location, resourceEncoded, student.id!!)
         student.signatures.add(signature)
@@ -104,6 +105,7 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
      * This way, we can store multiple signature files without having to overwrite the previous one.
      * This can be useful to compare signatures of a student.
      */
+    /*
     private fun formatFileName(student: Student): String {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -126,5 +128,6 @@ class SignatureHelper(private val context: Context, private val canvasView: Canv
         // 2020-11-13_1720_GaetanDumortier.jpg
         return (StringBuilder()).append(date).append(name).append(".jpg").toString()
     }
+     */
 
 }

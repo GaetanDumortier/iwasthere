@@ -1,7 +1,6 @@
 package com.ap.iwasthere.helpers
 
 import android.view.View
-import androidx.annotation.Nullable
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
