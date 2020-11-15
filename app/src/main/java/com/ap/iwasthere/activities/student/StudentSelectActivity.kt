@@ -8,16 +8,13 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
+import com.ap.iwasthere.models.FirebaseCallBack
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.student_select.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -61,7 +58,7 @@ class StudentSelectActivity : AppCompatActivity() {
         //endregion
 
         //region Database
-        populateStudentsListFromDb()
+        getAllStudents()
         //endregion
 
         //region View Listeners
@@ -146,32 +143,18 @@ class StudentSelectActivity : AppCompatActivity() {
     }
 
     /**
-     * Fetch all current students from the database and add to ArrayList.
+     * Get all current students from the database and add to ArrayList.
      */
-    private fun populateStudentsListFromDb() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("students")
-        val eventListener: ValueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (ds in dataSnapshot.children) {
-                        students.clear()
-                        val student = ds.getValue(Student::class.java)
-
-                        student?.setFullName()
-                        students.add(student!!)
-                    }
-                    arrayAdapter.notifyDataSetChanged()
+    private fun getAllStudents() {
+        FirebaseHelper().fetchAllStudents(object : FirebaseCallBack {
+            override fun onStudentCallBack(value: List<Student>) {
+                students.clear()
+                for (s in value) {
+                    students.add(s)
                 }
+                arrayAdapter.notifyDataSetChanged()
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                SnackbarHelper(layoutStudentSelect).makeAndShow(
-                    getString(R.string.database_error),
-                    Snackbar.LENGTH_LONG
-                )
-            }
-        }
-        usersRef.addValueEventListener(eventListener)
+        })
     }
 
     private fun isValidStudent(): Boolean {

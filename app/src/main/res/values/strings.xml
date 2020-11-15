@@ -45,8 +45,23 @@
     <string name="signature_empty">Je hebt geen handtekening gezet!</string>
 
     <string name="database_error">Er is iets fout gegaan tijdens het ophalen van de data!</string>
-    <string name="menu_admin">Beheer</string>
-    <string name="menu_start">Start</string>
+
+    <!-- General drawer menu -->
+    <string name="item_admin">Beheer</string>
+    <string name="item_start">Start</string>
+
+    <!-- Admin drawer menu -->
+    <string name="menu_students_title">Studenten</string>
+    <string name="menu_misc_title">Overige</string>
+
+    <string name="item_student_add">Student toevoegen</string>
+    <string name="item_signatures">Handtekeningen</string>
+
+    <string name="item_misc">App instellingen</string>
+    <string name="item_sync">Data synchroniseren</string>
+
+    <string name="admin_dashboard_subtitle">Selecteer een actie uit het menu.</string>
+    <string name="admin_signout">Uitloggen</string>
 
     <string name="authenticate_password">Wachtwoord</string>
     <string name="authenticate_login">Login</string>

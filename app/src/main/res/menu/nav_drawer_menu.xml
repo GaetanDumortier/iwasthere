@@ -2,11 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_admin"
-        android:title="@string/menu_admin" />
+        android:id="@+id/item_start"
+        android:icon="@drawable/icon_start"
+        android:title="@string/item_start" />
 
     <item
-        android:id="@+id/menu_start"
-        android:title="@string/menu_start" />
+        android:id="@+id/menu_admin"
+        android:icon="@drawable/icon_admin"
+        android:title="@string/item_admin" />
 
 </menu>

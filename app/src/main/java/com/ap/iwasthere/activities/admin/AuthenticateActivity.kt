@@ -15,7 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_authenticate.*
+import kotlinx.android.synthetic.main.admin_authenticate.*
 import kotlinx.android.synthetic.main.student_select.*
 import kotlinx.android.synthetic.main.student_select.navView
 
@@ -27,11 +27,11 @@ class AuthenticateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authenticate)
+        setContentView(R.layout.admin_authenticate)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
-        UIUtils().configureSupportActionBar(this, getString(R.string.menu_admin))
+        UIUtils().configureSupportActionBar(this, getString(R.string.item_admin))
         UIUtils().navigationActionsListener(this, navView)
         //endregion
 
@@ -46,7 +46,7 @@ class AuthenticateActivity : AppCompatActivity() {
          */
         btnAuthenticate.setOnClickListener {
             if (authenticate()) {
-                val intent = Intent(this, StudentSelectActivity::class.java)
+                val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
                 this.finish()
             } else {
@@ -93,7 +93,7 @@ class AuthenticateActivity : AppCompatActivity() {
         return (txtPassword.text.toString().isNotEmpty() && txtPassword.text.toString() == adminPassword)
     }
 
-    //region Overrite functions
+    //region Override functions
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true

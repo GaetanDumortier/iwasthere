@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu android:id="@+id/navDrawerMenu"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_start"
+        android:icon="@drawable/icon_start"
+        android:title="@string/item_start" />
+
+    <item android:title="@string/menu_students_title">
+        <menu>
+            <item
+                android:id="@+id/admin_item_students"
+                android:icon="@drawable/icon_student"
+                android:title="@string/menu_students_title" />
+
+            <item
+                android:id="@+id/admin_item_student_add"
+                android:icon="@drawable/icon_student_add"
+                android:title="@string/item_student_add" />
+
+            <item
+                android:id="@+id/admin_item_signatures"
+                android:icon="@drawable/icon_signature"
+                android:title="@string/item_signatures" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_misc_title">
+        <menu>
+            <item
+                android:id="@+id/admin_item_app_settings"
+                android:icon="@drawable/icon_settings"
+                android:title="@string/item_misc" />
+
+            <item
+                android:id="@+id/admin_item_app_sync"
+                android:icon="@drawable/icon_sync"
+                android:title="@string/item_sync" />
+        </menu>
+    </item>
+
+</menu>

@@ -95,22 +95,55 @@ class UIUtils {
      */
     fun navigationActionsListener(activity: AppCompatActivity, navView: NavigationView) {
         navView.setNavigationItemSelectedListener {
-            //val view: View? = activity.currentFocus!!
-
             when (it.itemId) {
                 R.id.menu_admin -> {
-                    //if (view!!.sourceLayoutResId != R.layout.activity_authenticate) {
+                    //if (view!!.sourceLayoutResId != R.layout.admin_authenticate) {
                     val intent = Intent(activity, AuthenticateActivity::class.java)
                     activity.startActivity(intent)
                     activity.finish()
                     //}
                 }
-                R.id.menu_start -> {
+                R.id.item_start -> {
                     //if (view!!.sourceLayoutResId != R.layout.student_select) {
                     val intent = Intent(activity, StudentSelectActivity::class.java)
                     activity.startActivity(intent)
                     activity.finish()
                     //}
+                }
+            }
+            true
+        }
+    }
+
+    /**
+     * Equal to the method above (navigationActionsListener), but handle specific items
+     * defined in the admin navigation (nav_drawer_menu_admin)
+     *
+     * @param activity the activity to add a listener for
+     * @param navView the NavigationView resource
+     */
+    fun adminNavigationActionListener(activity: AppCompatActivity, navView: NavigationView) {
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_start -> {
+                    val intent = Intent(activity, StudentSelectActivity::class.java)
+                    activity.startActivity(intent)
+                    activity.finish()
+                }
+                R.id.admin_item_students -> {
+                    // TODO: implement activity to StudentsOverviewActivity
+                }
+                R.id.admin_item_signatures -> {
+                    // TODO: implement activity to SignaturesOverviewActivity
+                }
+                R.id.admin_item_student_add -> {
+                    // TODO: implement activity to StudentAddActivity
+                }
+                R.id.admin_item_app_settings -> {
+                    // TODO: implement activity to AppSettingsActivity
+                }
+                R.id.admin_item_app_sync -> {
+                    // TODO: add activity for this and add callback in FirebaseHelper to show snackbar when done?
                 }
             }
             true
