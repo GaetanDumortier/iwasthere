@@ -18,7 +18,10 @@ class SnackbarHelper(private val view: View) {
             duration
         )
 
+        val layout = snackbar.view as Snackbar.SnackbarLayout
+        layout.minimumWidth = view.width
         snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
+
         snackbar.show()
     }
 

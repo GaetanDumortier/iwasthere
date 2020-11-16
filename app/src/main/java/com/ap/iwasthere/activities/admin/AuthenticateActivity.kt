@@ -7,8 +7,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.BuildConfig
 import com.ap.iwasthere.R
-import com.ap.iwasthere.activities.student.StudentSelectActivity
 import com.ap.iwasthere.helpers.SnackbarHelper
+import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
@@ -28,6 +28,7 @@ class AuthenticateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_authenticate)
+        NetworkObserver(applicationContext).observe(layoutAdminAuthenticate, this)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
@@ -54,8 +55,11 @@ class AuthenticateActivity : AppCompatActivity() {
                     getString(R.string.admin_incorrect_password),
                     Snackbar.LENGTH_LONG
                 )
+                UIUtils().hideKeyboard(this, true)
             }
         }
+
+        txtPassword.setOnClickListener { txtPassword.text.clear() }
         //endregion
     }
 
