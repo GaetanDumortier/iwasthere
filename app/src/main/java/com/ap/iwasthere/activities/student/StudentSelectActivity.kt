@@ -3,6 +3,7 @@ package com.ap.iwasthere.activities.student
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,7 +17,6 @@ import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import kotlinx.android.synthetic.main.student_select.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -91,19 +91,10 @@ class StudentSelectActivity : AppCompatActivity() {
                 )
             } else {
                 txtStudentList.inputType = InputType.TYPE_NULL
-
                 // Set student object
-                val studentName = txtStudentList.text.toString().split("\\s".toRegex()).toTypedArray()
-                this.student =
-                    Student(
-                        UUID.randomUUID().toString(),
-                        studentName[0],
-                        studentName
-                            .drop(1).toString()
-                            .replace("[", "")
-                            .replace("]", "")
-                            .replace(",", "")
-                    )
+                this.student = getSelectedStudent()
+                val lastName = Student().formatLastName(this.student.lastName!!)
+                this.student.lastName = lastName
             }
             UIUtils().hideKeyboard(this, true)
         }
@@ -159,6 +150,17 @@ class StudentSelectActivity : AppCompatActivity() {
 
     private fun isValidStudent(): Boolean {
         return this.students.toString().contains(txtStudentList.text.toString())
+    }
+
+    private fun getSelectedStudent(): Student {
+        var student: Student? = null
+        for (s in this.students) {
+            if (s.fullName.equals(txtStudentList.text.toString())) {
+                student = s
+            }
+        }
+
+        return student!!
     }
 
     //region Override functions

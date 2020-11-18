@@ -5,6 +5,12 @@
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Sluit menu</string>
 
+    <!--
+    //
+    // START ACTIVITIES
+    //
+    -->
+
     <!-- StudentSelectActivity -->
     <string name="student_label">Wie ben je?</string>
     <string name="name_placeholder">John Doe</string>
@@ -36,6 +42,16 @@
     <string name="permission_error_sub">Geef de app toegang tot je locatie om verder te kunnen.</string>
     <string name="permission_retry">Open instellingen</string>
 
+    <!-- Admin StudentAddActivity -->
+    <string name="btn_add">Toevoegen</string>
+
+
+    <!--
+    //
+    // END ACTIVITIES
+    //
+    -->
+
     <!-- Errors -->
     <string name="intent_error">Er is een fout opgetreden. Kon activity niet starten.</string>
     <string name="invalid_student">De opgegeven student bestaat niet.</string>
@@ -64,6 +80,6 @@
     <string name="admin_signout">Uitloggen</string>
 
     <string name="authenticate_password">Wachtwoord</string>
-    <string name="authenticate_login">Login</string>
+    <string name="authenticate_login">Inloggen</string>
 
 </resources>

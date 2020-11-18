@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.PermissionErrorActivity"
+            android:noHistory="true" />
+
+        <!-- Student activities -->
         <activity android:name=".activities.student.StudentSelectActivity" />
         <activity
             android:name=".activities.student.StudentSignatureActivity"
@@ -33,18 +38,20 @@
         <activity
             android:name=".activities.student.SignatureSubmittedActivity"
             android:noHistory="true" />
+
+        <!-- Admin activities -->
         <activity
             android:name=".activities.admin.AuthenticateActivity"
             android:parentActivityName=".activities.student.StudentSelectActivity" />
-        <activity
-            android:name=".activities.PermissionErrorActivity"
-            android:noHistory="true" />
         <activity
             android:name=".activities.admin.DashboardActivity"
             android:parentActivityName=".activities.student.StudentSelectActivity"
             android:noHistory="true" />
         <activity
             android:name=".activities.admin.StudentOverviewActivity"
+            android:parentActivityName=".activities.admin.DashboardActivity" />
+        <activity
+            android:name=".activities.admin.StudentAddActivity"
             android:parentActivityName=".activities.admin.DashboardActivity" />
     </application>
 

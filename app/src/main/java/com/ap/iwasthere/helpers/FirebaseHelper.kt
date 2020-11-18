@@ -30,8 +30,6 @@ class FirebaseHelper {
         rootRef.child(studentsChild).child(student.id!!).setValue(student).addOnCompleteListener {
             itemCallback?.onItemCallback(student)
         }
-
-        // studentsRef.child(student.id!!).setValue(student)
     }
 
     /**
@@ -125,6 +123,12 @@ class FirebaseHelper {
         )
     }
 
+    /**
+     * Fetch the admin password from the database. If no password can be found
+     * the callback defined in gradle.properties will be used.
+     *
+     * @param itemCallback the callback to be executed once data is received
+     */
     fun getAdminPassword(itemCallback: FirebaseCallback.ItemCallback?) {
         rootRef.addValueEventListener(
             rootRef.addValueEventListener(object : ValueEventListener {

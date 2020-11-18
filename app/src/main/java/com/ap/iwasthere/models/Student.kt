@@ -2,6 +2,7 @@ package com.ap.iwasthere.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -89,6 +90,21 @@ class Student() : Parcelable {
     }
 
     override fun toString(): String {
+        if (this.fullName == null) {
+            this.setFullName()
+        }
+
         return this.fullName!!
+    }
+
+    fun formatLastName(name: String): String {
+        return name.replace("[", "").replace("]", "").replace(",", "")
+    }
+
+    fun makeStudent(firstName: String, lastName: String): Student {
+        val student = Student(UUID.randomUUID().toString(), firstName, lastName)
+        student.setFullName()
+
+        return student
     }
 }

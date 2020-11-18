@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ap.iwasthere.R
 import com.ap.iwasthere.activities.admin.AuthenticateActivity
+import com.ap.iwasthere.activities.admin.StudentAddActivity
 import com.ap.iwasthere.activities.admin.StudentOverviewActivity
 import com.ap.iwasthere.activities.student.StudentSelectActivity
 import com.google.android.material.navigation.NavigationView
@@ -138,7 +139,8 @@ class UIUtils {
                     // TODO: implement activity to SignaturesOverviewActivity
                 }
                 R.id.admin_item_student_add -> {
-                    // TODO: implement activity to StudentAddActivity
+                    activity.startActivity(Intent(activity, StudentAddActivity::class.java))
+                    activity.finish()
                 }
                 R.id.admin_item_app_settings -> {
                     // TODO: implement activity to AppSettingsActivity
