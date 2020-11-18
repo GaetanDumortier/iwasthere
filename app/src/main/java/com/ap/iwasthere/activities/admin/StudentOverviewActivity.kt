@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import android.widget.Filter
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_overview.*
+import java.util.*
+import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 
@@ -66,6 +66,10 @@ class StudentOverviewActivity : AppCompatActivity() {
                     students.add(s as Student)
                 }
                 filteredStudents.addAll(students)
+
+                filteredStudents.sortWith(Comparator { s1: Student, s2: Student ->
+                    s1.fullName!!.compareTo(s2.fullName!!)
+                })
                 arrayAdapter.notifyDataSetChanged()
             }
         })
@@ -85,6 +89,9 @@ class StudentOverviewActivity : AppCompatActivity() {
 
         filteredStudents.clear()
         filteredStudents.addAll(filtered)
+        filteredStudents.sortWith(Comparator { s1: Student, s2: Student ->
+            s1.fullName!!.compareTo(s2.fullName!!)
+        })
         arrayAdapter.notifyDataSetChanged()
     }
 

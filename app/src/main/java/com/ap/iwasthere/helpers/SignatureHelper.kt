@@ -96,37 +96,6 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
         student.signatures.add(signature)
 
         // Add the signature to the user in the database.
-        FirebaseHelper().addSignature(student.id!!, signature, null)
+        FirebaseHelper().addSignature(signature, null)
     }
-
-    /**
-     * Get the current date + time and append to filename.
-     * This way, we can store multiple signature files without having to overwrite the previous one.
-     * This can be useful to compare signatures of a student.
-     */
-    /*
-    private fun formatFileName(student: Student): String {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
-
-        student.setFullName()
-        val name = student.fullName!!.replace("\\s".toRegex(), "_")
-        val date = String.format(
-            "%s-%s-%s_%s%s_",
-            year.toString(),
-            month.toString(),
-            day.toString(),
-            hour.toString(),
-            minute.toString()
-        )
-
-        // 2020-11-13_1720_GaetanDumortier.jpg
-        return (StringBuilder()).append(date).append(name).append(".jpg").toString()
-    }
-     */
-
 }

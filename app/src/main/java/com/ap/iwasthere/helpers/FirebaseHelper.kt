@@ -35,16 +35,12 @@ class FirebaseHelper {
     /**
      * Add a new provided signature for a given user to the database.
      *
-     * @param studentId the unique identifier of the user to add the signature for
      * @param signature the Signature object to add
      */
-    fun addSignature(studentId: String, signature: Signature, itemCallback: FirebaseCallback.ItemCallback?) {
-        signaturesRef.child(studentId).setValue(signature).addOnCompleteListener {
+    fun addSignature(signature: Signature, itemCallback: FirebaseCallback.ItemCallback?) {
+        signaturesRef.child(signature.id!!).setValue(signature).addOnCompleteListener {
             itemCallback?.onItemCallback(signature)
         }
-
-        // signaturesRef.child(studentId).setValue(signature)
-        // rootRef.child(signaturesChild).child(studentId).setValue(signature)
     }
 
     /**
@@ -54,7 +50,7 @@ class FirebaseHelper {
      */
     fun fetchAllStudents(listCallback: FirebaseCallback.ListCallback?) {
         studentsRef.addValueEventListener(
-            studentsRef.orderByKey().addValueEventListener(object : ValueEventListener {
+            studentsRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val studentsList = ArrayList<Student>()

@@ -44,6 +44,8 @@
 
     <!-- Admin StudentAddActivity -->
     <string name="btn_add">Toevoegen</string>
+    <string name="add_label">Naam (voor + achternaam)</string>
+    <string name="add_hint">Gescheiden door komma of new line</string>
 
 
     <!--

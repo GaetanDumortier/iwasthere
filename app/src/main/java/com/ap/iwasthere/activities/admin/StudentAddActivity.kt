@@ -43,10 +43,8 @@ class StudentAddActivity : AppCompatActivity() {
         FirebaseHelper().addStudent(student, object : FirebaseCallback.ItemCallback {
             override fun onItemCallback(value: Any) {
                 if ((value as Student).id != null) {
-                    //SnackbarHelper(view).makeAndShow("De student is successvol toegevoegd!")
                     txtStudentName.text.clear()
                 } else {
-                    //SnackbarHelper(view).makeAndShow("Er is iets fout gegaan tijdens het toevoegen van de student!")
                     txtStudentName.text.clear()
                 }
             }
@@ -54,13 +52,17 @@ class StudentAddActivity : AppCompatActivity() {
     }
 
     private fun checkSplitter() {
-        var splitter = "\\n"
-        if (txtStudentName.text.contains(",")) {
-            splitter = ","
-        }
-
-        for (line in txtStudentName.text.split(splitter)) {
-            addStudent(line.trim())
+        val text = txtStudentName.text
+        if (text.contains(",")) {
+            for (line in text.split(",")) {
+                addStudent(line.trim())
+            }
+        } else {
+            text.lines().forEach {
+                if (it.isNotEmpty()) {
+                    addStudent(it.trim())
+                }
+            }
         }
     }
 
