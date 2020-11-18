@@ -24,6 +24,7 @@ import java.util.*
  */
 @SuppressLint("MissingPermission") // We check permissions on runtime, thus this can be ignored
 class LocationHelper(private val activity: Activity) {
+    private var TAG: String = "LocationHelper"
 
     private var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
     lateinit var locationRequest: LocationRequest
@@ -38,13 +39,12 @@ class LocationHelper(private val activity: Activity) {
             val addressList = geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
             address = addressList[0].getAddressLine(0)
         }
-
         return address
     }
 
     private suspend fun getLastLocation(): Location? {
         if (!isLocationEnabled()) {
-            Log.d("LocationHelper", "Location cant be fetched through either GPS or network provider.")
+            Log.d(TAG, "Location cant be fetched through either GPS or network provider.")
             return null
         }
 
@@ -52,35 +52,6 @@ class LocationHelper(private val activity: Activity) {
     }
 
     /*
-    fun getLastLocation(): String {
-        var locationStr = ""
-
-        if (isLocationEnabled()) {
-            fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
-                val loc: Location? = task.result
-                if (loc == null) {
-                    Log.d("LocationHelper", "Last location is null.")
-                    fetchNewLocation()
-                } else {
-                    this.location = loc
-                }
-
-                val addressList: List<Address> =
-                    geocoder.getFromLocation(this.location!!.latitude, this.location!!.longitude, 1)
-                locationStr = addressList[0].getAddressLine(0)
-                Log.d("LocationHelper", "in listener: $locationStr")
-            }.addOnFailureListener {
-                Log.d("LocationHelper", "Failed to fetch location: " + it.message)
-            }
-            return locationStr
-        } else {
-            val intent = Intent(activity, PermissionErrorActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
-        }
-    }
-    */
-
     private fun fetchNewLocation() {
         locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -92,6 +63,7 @@ class LocationHelper(private val activity: Activity) {
             locationRequest, locationCallback, Looper.myLooper()
         )
     }
+     */
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
