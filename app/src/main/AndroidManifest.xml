@@ -43,6 +43,9 @@
             android:name=".activities.admin.DashboardActivity"
             android:parentActivityName=".activities.student.StudentSelectActivity"
             android:noHistory="true" />
+        <activity
+            android:name=".activities.admin.StudentOverviewActivity"
+            android:parentActivityName=".activities.admin.DashboardActivity" />
     </application>
 
 </manifest>

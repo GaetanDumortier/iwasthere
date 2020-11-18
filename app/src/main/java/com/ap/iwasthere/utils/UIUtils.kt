@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ap.iwasthere.R
 import com.ap.iwasthere.activities.admin.AuthenticateActivity
+import com.ap.iwasthere.activities.admin.StudentOverviewActivity
 import com.ap.iwasthere.activities.student.StudentSelectActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -126,12 +127,12 @@ class UIUtils {
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_start -> {
-                    val intent = Intent(activity, StudentSelectActivity::class.java)
-                    activity.startActivity(intent)
+                    activity.startActivity(Intent(activity, StudentSelectActivity::class.java))
                     activity.finish()
                 }
                 R.id.admin_item_students -> {
-                    // TODO: implement activity to StudentsOverviewActivity
+                    activity.startActivity(Intent(activity, StudentOverviewActivity::class.java))
+                    activity.finish()
                 }
                 R.id.admin_item_signatures -> {
                     // TODO: implement activity to SignaturesOverviewActivity
