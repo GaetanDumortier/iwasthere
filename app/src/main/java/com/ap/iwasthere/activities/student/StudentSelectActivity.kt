@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
-import com.ap.iwasthere.models.FirebaseCallBack
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
@@ -146,11 +146,11 @@ class StudentSelectActivity : AppCompatActivity() {
      * Get all current students from the database and add to ArrayList.
      */
     private fun getAllStudents() {
-        FirebaseHelper().fetchAllStudents(object : FirebaseCallBack {
-            override fun onStudentCallBack(value: List<Student>) {
+        FirebaseHelper().fetchAllStudents(object : FirebaseCallback.ListCallback {
+            override fun onListCallback(value: List<Any>) {
                 students.clear()
                 for (s in value) {
-                    students.add(s)
+                    students.add(s as Student)
                 }
                 arrayAdapter.notifyDataSetChanged()
             }

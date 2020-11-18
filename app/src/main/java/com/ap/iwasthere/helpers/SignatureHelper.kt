@@ -3,9 +3,7 @@ package com.ap.iwasthere.helpers
 import android.app.Activity
 import android.graphics.*
 import android.util.Base64
-import com.ap.iwasthere.models.CanvasView
-import com.ap.iwasthere.models.Signature
-import com.ap.iwasthere.models.Student
+import com.ap.iwasthere.models.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
@@ -98,7 +96,7 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
         student.signatures.add(signature)
 
         // Add the signature to the user in the database.
-        FirebaseHelper().addSignature(student.id!!, signature)
+        FirebaseHelper().addSignature(student.id!!, signature, null)
     }
 
     /**

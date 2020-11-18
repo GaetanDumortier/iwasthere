@@ -8,7 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
-import com.ap.iwasthere.models.FirebaseCallBack
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_overview.*
@@ -48,11 +48,11 @@ class StudentOverviewActivity : AppCompatActivity() {
     }
 
     private fun getAllStudents() {
-        FirebaseHelper().fetchAllStudents(object : FirebaseCallBack {
-            override fun onStudentCallBack(value: List<Student>) {
+        FirebaseHelper().fetchAllStudents(object : FirebaseCallback.ListCallback {
+            override fun onListCallback(value: List<Any>) {
                 students.clear()
                 for (s in value) {
-                    students.add(s)
+                    students.add(s as Student)
                 }
                 arrayAdapter.notifyDataSetChanged()
             }

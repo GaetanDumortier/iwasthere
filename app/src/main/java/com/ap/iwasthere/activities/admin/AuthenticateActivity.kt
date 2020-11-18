@@ -7,7 +7,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.BuildConfig
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +23,7 @@ import kotlinx.android.synthetic.main.student_select.navView
 
 class AuthenticateActivity : AppCompatActivity() {
     // When retrieving password from Firebase fails, the password from gradle.properties will be used
-    private var adminPassword = BuildConfig.ADMIN_PASSWORD
+    private var adminPassword = ""
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -68,24 +70,11 @@ class AuthenticateActivity : AppCompatActivity() {
      * If password retrieval fails, the default defined password will be used.
      */
     private fun getAdminPassword() {
-        val eventListener: ValueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    if (dataSnapshot.hasChild("admin_password")) {
-                        adminPassword = dataSnapshot.child("admin_password").value.toString()
-                    }
-                }
+        FirebaseHelper().getAdminPassword(object : FirebaseCallback.ItemCallback {
+            override fun onItemCallback(value: Any) {
+                this@AuthenticateActivity.adminPassword = value.toString()
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                SnackbarHelper(layoutStudentSelect).makeAndShow(
-                    getString(R.string.database_error),
-                    Snackbar.LENGTH_LONG
-                )
-            }
-        }
-
-        FirebaseDatabase.getInstance().reference.addListenerForSingleValueEvent(eventListener)
+        })
     }
 
     /**
