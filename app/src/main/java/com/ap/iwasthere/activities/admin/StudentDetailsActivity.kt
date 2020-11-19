@@ -1,7 +1,6 @@
 package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +13,6 @@ import com.ap.iwasthere.models.adapters.SignatureAdapter
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_details.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -64,7 +62,6 @@ class StudentDetailsActivity : AppCompatActivity() {
                     LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
                 })
                 signatureAdapter.notifyDataSetChanged()
-                Log.d("StudentDetail", signatures.toString())
             }
         }, SIGNATURES_AMOUNT)
     }

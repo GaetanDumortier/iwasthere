@@ -21,7 +21,7 @@ import java.util.*
  * @since 13 November 2020
  */
 class SignatureHelper(private val activity: Activity, private val canvasView: CanvasView) {
-    private lateinit var location: String
+    private lateinit var location: Location
 
     /**
      * Save a signature from the provided CanvasView to the local storage of the device.

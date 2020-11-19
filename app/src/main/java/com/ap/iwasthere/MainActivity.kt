@@ -2,7 +2,9 @@ package com.ap.iwasthere
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.PermissionHelper
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
 
 /**
@@ -16,7 +18,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        if (FirebaseApp.getApps(this).size == 0) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        }
+
         PermissionHelper(this).checkPermissions()
     }
 

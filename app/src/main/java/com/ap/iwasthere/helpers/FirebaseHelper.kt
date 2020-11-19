@@ -2,8 +2,11 @@ package com.ap.iwasthere.helpers
 
 import android.util.Log
 import com.ap.iwasthere.BuildConfig
-import com.ap.iwasthere.models.*
+import com.ap.iwasthere.models.FirebaseCallback
+import com.ap.iwasthere.models.Signature
+import com.ap.iwasthere.models.Student
 import com.google.firebase.database.*
+
 
 /**
  * A helper class which is contains actions and properties which are required to perform
@@ -14,7 +17,8 @@ import com.google.firebase.database.*
  */
 class FirebaseHelper {
     private val TAG = "FirebaseHelper"
-    private val rootRef = FirebaseDatabase.getInstance().reference
+
+    private var rootRef = FirebaseDatabase.getInstance().reference
     private val studentsChild = "students"
     private val signaturesChild = "signatures"
     private val studentsRef = rootRef.child(studentsChild)

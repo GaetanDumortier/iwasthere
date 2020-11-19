@@ -25,7 +25,7 @@ class Signature() : Parcelable {
         set(value) {
             field = value
         }
-    var location: String? = null
+    var location: Location? = null
         get() = field
         set(value) {
             field = value
@@ -50,7 +50,13 @@ class Signature() : Parcelable {
      * @param signature the signature itself, encoded as a base64 string
      * @param studentId the unique identifier of the student
      */
-    constructor(id: String, date: String, location: String, signature: String, studentId: String) : this() {
+    constructor(
+        id: String,
+        date: String,
+        location: Location,
+        signature: String,
+        studentId: String
+    ) : this() {
         this.id = id
         this.date = date
         this.location = location
@@ -62,7 +68,6 @@ class Signature() : Parcelable {
     constructor(parcel: Parcel) : this() {
         this.id = parcel.readString()
         this.date = parcel.readString()
-        this.location = parcel.readString()
         this.signature = parcel.readString()
         this.studentId = parcel.readString()
     }
@@ -71,7 +76,6 @@ class Signature() : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(id)
         dest.writeString(date)
-        dest.writeString(location)
         dest.writeString(signature)
         dest.writeString(studentId)
     }

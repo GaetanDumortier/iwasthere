@@ -3,17 +3,22 @@ package com.ap.iwasthere.helpers
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.os.Looper
 import android.util.Log
+
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+
 import kotlinx.coroutines.tasks.await
+
 import java.util.*
+
+import com.ap.iwasthere.models.Location as LocationModel
 
 
 /**
@@ -32,14 +37,16 @@ class LocationHelper(private val activity: Activity) {
     private var geocoder: Geocoder = Geocoder(activity.applicationContext, Locale.getDefault())
     private var location: Location? = null
 
-    suspend fun getLocation(): String {
-        var address = "Fout bij localisatie."
+    suspend fun getLocation(): LocationModel {
+        var location: LocationModel? = null
         val loc = getLastLocation()
         if (loc != null) {
             val addressList = geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
-            address = addressList[0].getAddressLine(0)
+            val address: Address = addressList[0]
+            location = LocationModel().makeLocation(address.locality, address.postalCode, address.getAddressLine(0))
         }
-        return address
+
+        return location!!
     }
 
     private suspend fun getLastLocation(): Location? {
