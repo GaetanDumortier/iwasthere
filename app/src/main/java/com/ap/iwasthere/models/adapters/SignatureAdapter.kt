@@ -13,7 +13,7 @@ import com.ap.iwasthere.R
 import com.ap.iwasthere.models.Signature
 
 class SignatureAdapter(
-    context: Context, @LayoutRes private val layoutResource: Int, private val values: ArrayList<Signature>
+    context: Context, @LayoutRes private val layoutResource: Int, values: ArrayList<Signature>
 ) : ArrayAdapter<Signature>(context, layoutResource, values) {
 
     @SuppressLint("ViewHolder")
