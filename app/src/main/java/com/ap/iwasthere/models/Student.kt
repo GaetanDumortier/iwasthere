@@ -63,12 +63,14 @@ class Student() : Parcelable {
         id = parcel.readString()
         firstName = parcel.readString()
         lastName = parcel.readString()
+        setFullName()
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
         dest?.writeString(firstName)
         dest?.writeString(lastName)
+        setFullName()
     }
 
     override fun describeContents(): Int {

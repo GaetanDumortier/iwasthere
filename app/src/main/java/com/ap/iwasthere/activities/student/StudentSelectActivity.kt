@@ -81,7 +81,7 @@ class StudentSelectActivity : AppCompatActivity() {
          * StudentList: OnItemClickListener.
          * Will verify if the selected value is a valid student.
          */
-        txtStudentList.setOnItemClickListener { _, view, _, _ ->
+        txtStudentList.setOnItemClickListener { parent, view, pos, _ ->
             if (!isValidStudent()) {
                 txtStudentList.text.clear()
 
@@ -91,10 +91,10 @@ class StudentSelectActivity : AppCompatActivity() {
                 )
             } else {
                 txtStudentList.inputType = InputType.TYPE_NULL
+
                 // Set student object
-                this.student = getSelectedStudent()
-                val lastName = Student().formatLastName(this.student.lastName!!)
-                this.student.lastName = lastName
+                this.student = parent.getItemAtPosition(pos) as Student
+                this.student.lastName = Student().formatLastName(this.student.lastName!!)
             }
             UIUtils().hideKeyboard(this, true)
         }
@@ -150,17 +150,6 @@ class StudentSelectActivity : AppCompatActivity() {
 
     private fun isValidStudent(): Boolean {
         return this.students.toString().contains(txtStudentList.text.toString())
-    }
-
-    private fun getSelectedStudent(): Student {
-        var student: Student? = null
-        for (s in this.students) {
-            if (s.fullName.equals(txtStudentList.text.toString())) {
-                student = s
-            }
-        }
-
-        return student!!
     }
 
     //region Override functions

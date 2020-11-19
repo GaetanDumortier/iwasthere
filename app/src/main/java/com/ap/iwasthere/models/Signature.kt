@@ -1,8 +1,11 @@
 package com.ap.iwasthere.models
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Base64
 import androidx.annotation.RequiresApi
 
 /**
@@ -85,5 +88,15 @@ class Signature() : Parcelable {
         override fun newArray(size: Int): Array<Student?> {
             return arrayOfNulls(size)
         }
+    }
+
+    /**
+     * Decode the base64 string of the signature to a bitmap image.
+     *
+     * @return the bitmap image or null if decoding failed
+     */
+    fun decodeSignature(): Bitmap {
+        val imageBytes = Base64.decode(this.signature, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     }
 }

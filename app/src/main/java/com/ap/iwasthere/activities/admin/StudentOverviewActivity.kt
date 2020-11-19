@@ -1,5 +1,6 @@
 package com.ap.iwasthere.activities.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -44,15 +45,23 @@ class StudentOverviewActivity : AppCompatActivity() {
         getAllStudents()
         //endregion
 
-        txtSearch.addTextChangedListener {
-            filterList(txtSearch.text.toString())
-        }
-
         //region View listeners
-        studentOverviewList.setOnItemClickListener { parent, view, position, id ->
+        /**
+         * Search field: TextChangedListener.
+         * Will filter the students list realtime with provided input.
+         */
+        txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
+
+        /**
+         * StudentOverviewList: OnClickListener.
+         * Will show a detail page for selected student.
+         */
+        studentOverviewList.setOnItemClickListener { parent, _, position, _ ->
             val student: Student = parent.getItemAtPosition(position) as Student
-            Log.d(TAG, "Student selected: ${student.id}")
-            // TODO: Navigate to new view: StudentDetailsActivity for clicked ID
+            val intent = Intent(this, StudentDetailsActivity::class.java)
+            intent.putExtra("student", student)
+            startActivity(intent)
+            finish()
         }
         //endregion
     }
@@ -66,7 +75,6 @@ class StudentOverviewActivity : AppCompatActivity() {
                     students.add(s as Student)
                 }
                 filteredStudents.addAll(students)
-
                 filteredStudents.sortWith(Comparator { s1: Student, s2: Student ->
                     s1.fullName!!.compareTo(s2.fullName!!)
                 })

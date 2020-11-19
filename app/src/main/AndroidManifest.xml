@@ -45,14 +45,16 @@
             android:parentActivityName=".activities.student.StudentSelectActivity" />
         <activity
             android:name=".activities.admin.DashboardActivity"
-            android:parentActivityName=".activities.student.StudentSelectActivity"
-            android:noHistory="true" />
+            android:parentActivityName=".activities.student.StudentSelectActivity" />
         <activity
             android:name=".activities.admin.StudentOverviewActivity"
             android:parentActivityName=".activities.admin.DashboardActivity" />
         <activity
             android:name=".activities.admin.StudentAddActivity"
             android:parentActivityName=".activities.admin.DashboardActivity" />
+        <activity
+            android:name=".activities.admin.StudentDetailsActivity"
+            android:parentActivityName=".activities.admin.StudentOverviewActivity" />
     </application>
 
 </manifest>

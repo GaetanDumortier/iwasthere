@@ -49,41 +49,40 @@ class FirebaseHelper {
      * @param listCallback the callback to be executed once data is received
      */
     fun fetchAllStudents(listCallback: FirebaseCallback.ListCallback?) {
-        studentsRef.addValueEventListener(
-            studentsRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val studentsList = ArrayList<Student>()
-                        for (ds in snapshot.children) {
-                            val student = ds.getValue(Student::class.java)
-                            student!!.setFullName()
-                            studentsList.add(student)
-                        }
-                        listCallback?.onListCallback(studentsList)
+        studentsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val studentsList = ArrayList<Student>()
+                    for (ds in snapshot.children) {
+                        val student = ds.getValue(Student::class.java)
+                        student!!.setFullName()
+                        studentsList.add(student)
                     }
+                    listCallback?.onListCallback(studentsList)
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(TAG, "Error executing fetchAllStudentsQuery. onCancelled thrown: " + error.message)
-                    listCallback?.onListCallback(emptyList<Student>())
-                }
-            })
-        )
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Error executing fetchAllStudentsQuery. onCancelled thrown: " + error.message)
+                listCallback?.onListCallback(emptyList<Student>())
+            }
+        })
     }
 
     /**
      * Fetch a specific student from the database.
      *
-     * @param userid the unique identifier of the student to retrieve
+     * @param studentId the unique identifier of the student to retrieve
      * @param itemCallback the callback to be executed once data is received
      */
-    fun fetchStudentById(userid: String, itemCallback: FirebaseCallback.ItemCallback?) {
-        studentsRef.equalTo(userid).addListenerForSingleValueEvent(object : ValueEventListener {
+    fun fetchStudentById(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
+        studentsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val student: Student? = null
+                    val student: Student? = snapshot.getValue(Student::class.java)
                     Log.d(TAG, "snapshot: $snapshot")
-                    //itemCallback?.onStudentCallback(student!!)
+                    Log.d(TAG, "student: ${student.toString()}")
+                    itemCallback?.onItemCallback(student!!)
                 }
             }
 
@@ -97,26 +96,36 @@ class FirebaseHelper {
     /**
      * Fetch all signatures from a provided student from the database.
      *
-     * @param userId the unique identifier of the student to retrieve the signatures for
+     * @param studentId the unique identifier of the student to retrieve the signatures for
      * @param listCallback the callback to be executed once data is received
+     * @param limit the max amount of signatures to return (def. 0, disabled)
      */
-    fun fetchAllSignaturesFromUser(userId: String, listCallback: FirebaseCallback.ListCallback?) {
-        signaturesRef.addValueEventListener(
-            signaturesRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (ds in snapshot.children) {
-                            Log.d(TAG, "signatures DS: $ds")
+    fun fetchAllSignaturesFromUser(studentId: String, listCallback: FirebaseCallback.ListCallback?, limit: Int = 0) {
+        var queryStr = signaturesRef.orderByKey()
+        if (limit > 0) {
+            queryStr = signaturesRef.orderByKey().limitToFirst(limit)
+        }
+
+        queryStr.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val signatures: ArrayList<Signature> = ArrayList()
+                    for (ds in snapshot.children) {
+                        val signature = ds.getValue(Signature::class.java)
+                        if (signature!!.studentId.equals(studentId)) {
+                            signatures.add(signature)
                         }
                     }
+                    listCallback?.onListCallback(signatures)
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(TAG, "Error executing fetchAllStudentsQuery. onCancelled thrown: " + error.message)
-                    listCallback?.onListCallback(emptyList())
-                }
-            })
-        )
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Error executing fetchAllSignaturesFromUser. onCancelled thrown: " + error.message)
+                listCallback?.onListCallback(emptyList())
+            }
+        })
+
     }
 
     /**

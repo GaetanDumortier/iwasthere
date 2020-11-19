@@ -40,7 +40,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         //endregion
 
         val i = intent
-        val student = i.getParcelableExtra<Student>("student")
+        val student: Student? = i.getParcelableExtra("student")
         if (student == null) {
             returnToSelectActivity()
         }
