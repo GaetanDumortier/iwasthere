@@ -48,6 +48,7 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
                 val layout = snackbar?.view as Snackbar.SnackbarLayout
                 layout.minimumWidth = view.width
 
+                FirebaseDatabase.getInstance().goOffline()
                 snackbar?.show()
                 // UIUtils().enableAllInput(view, false)
             } else {

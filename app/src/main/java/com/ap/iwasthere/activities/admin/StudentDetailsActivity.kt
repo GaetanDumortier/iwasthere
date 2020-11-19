@@ -14,6 +14,9 @@ import com.ap.iwasthere.models.adapters.SignatureAdapter
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_details.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class StudentDetailsActivity : AppCompatActivity() {
     private val SIGNATURES_AMOUNT = 5 // How many signatures to fetch
@@ -53,11 +56,12 @@ class StudentDetailsActivity : AppCompatActivity() {
         FirebaseHelper().fetchAllSignaturesFromUser(student.id!!, object : FirebaseCallback.ListCallback {
             override fun onListCallback(value: List<Any>) {
                 signatures.clear()
+                val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
                 for (s in value) {
                     signatures.add(s as Signature)
                 }
                 signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
-                    s1.date!!.compareTo(s2.date!!)
+                    LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
                 })
                 signatureAdapter.notifyDataSetChanged()
                 Log.d("StudentDetail", signatures.toString())

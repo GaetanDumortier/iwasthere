@@ -98,9 +98,9 @@ class FirebaseHelper {
      * @param limit the max amount of signatures to return (def. 0, disabled)
      */
     fun fetchAllSignaturesFromUser(studentId: String, listCallback: FirebaseCallback.ListCallback?, limit: Int = 0) {
-        var queryStr = signaturesRef.orderByKey()
+        var queryStr = signaturesRef.orderByValue()
         if (limit > 0) {
-            queryStr = signaturesRef.orderByKey().limitToFirst(limit)
+            queryStr = signaturesRef.orderByValue().limitToFirst(limit)
         }
 
         queryStr.addValueEventListener(object : ValueEventListener {
