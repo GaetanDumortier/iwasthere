@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.net.*
 import android.os.Build
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -50,9 +49,9 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
                 layout.minimumWidth = view.width
 
                 snackbar?.show()
-                FirebaseDatabase.getInstance().goOnline()
                 // UIUtils().enableAllInput(view, false)
             } else {
+                FirebaseDatabase.getInstance().goOnline()
                 snackbar?.dismiss()
                 //UIUtils().enableAllInput(view, true)
             }
