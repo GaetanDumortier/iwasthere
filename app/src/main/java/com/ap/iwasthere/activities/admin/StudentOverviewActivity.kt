@@ -2,7 +2,6 @@ package com.ap.iwasthere.activities.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,16 +11,11 @@ import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
+import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_overview.*
-import java.util.*
-import kotlin.Comparator
-import kotlin.collections.ArrayList
-
 
 class StudentOverviewActivity : AppCompatActivity() {
-    private var TAG = "StudentOverview"
-
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var arrayAdapter: ArrayAdapter<Student>
     private var students: ArrayList<Student> = ArrayList()
@@ -30,6 +24,7 @@ class StudentOverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_overview)
+        NetworkObserver(applicationContext).observe(layoutAdminStudentOverview, this)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)

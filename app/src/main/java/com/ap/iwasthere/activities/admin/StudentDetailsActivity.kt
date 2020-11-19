@@ -11,6 +11,7 @@ import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.models.adapters.SignatureAdapter
+import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_details.*
 
@@ -23,6 +24,7 @@ class StudentDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_details)
+        NetworkObserver(applicationContext).observe(layoutAdminStudentDetail, this)
 
         student = intent.getParcelableExtra("student")!!
         updateView(student)

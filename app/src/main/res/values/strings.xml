@@ -47,6 +47,8 @@
     <string name="add_label">Naam (voor + achternaam)</string>
     <string name="add_hint">Gescheiden door komma of new line</string>
 
+    <string name="filter_name">Filter op naam</string>
+
     <!-- Admin StudentDetailActivity -->
     <string name="label_last_signatures">Laatste handtekeningen</string>
     <string name="button_all_signatures">Alle handtekeningen</string>

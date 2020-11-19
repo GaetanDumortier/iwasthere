@@ -7,9 +7,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
-import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
+import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_add.*
 
@@ -19,6 +19,7 @@ class StudentAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_add)
+        NetworkObserver(applicationContext).observe(layoutAdminStudentAdd, this)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)

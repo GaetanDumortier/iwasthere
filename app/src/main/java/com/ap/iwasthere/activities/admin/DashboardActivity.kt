@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.activities.student.StudentSelectActivity
+import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.admin_dashboard.*
 import kotlinx.android.synthetic.main.student_select.navView
@@ -17,6 +18,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_dashboard)
+        NetworkObserver(applicationContext).observe(layoutAdminDashboard, this)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)

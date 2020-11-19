@@ -10,7 +10,7 @@
     tools:context=".activities.admin.StudentDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutStudentDetail"
+        android:id="@+id/layoutAdminStudentDetail"
         android:padding="30dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
