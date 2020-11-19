@@ -2,6 +2,8 @@ package com.ap.iwasthere.models.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.LocationHelper
 import com.ap.iwasthere.models.Location
 import com.ap.iwasthere.models.Signature
 
@@ -31,14 +34,11 @@ class SignatureAdapter(
         imageView.setImageBitmap(getItem(position)?.decodeSignature())
         location.text = getItem(position)?.location?.address
         date.text = getItem(position)?.date
-        location.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
 
-        /*
-        // Modify styling if the location does not contain Antwerp.
-        if (!locationModel.address?.contains("Kak")!!) {
-            location.setTextColor(R.color.colorPrimaryDark)
+        // Modify styling if the location is marked as suspicious
+        if (LocationHelper.locationIsSuspicious(locationModel)) {
+            location.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         }
-        */
 
         return cView
     }

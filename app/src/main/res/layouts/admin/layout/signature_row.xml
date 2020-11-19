@@ -17,7 +17,8 @@
         android:id="@+id/lblSignatureLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="17sp"
+        android:textColor="@color/apBlack"
         android:layout_below="@+id/signatureImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signatureImage" />
@@ -26,7 +27,8 @@
         android:id="@+id/lblSignatureDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="17sp"
+        android:textColor="@color/apBlack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSignatureLocation" />
 

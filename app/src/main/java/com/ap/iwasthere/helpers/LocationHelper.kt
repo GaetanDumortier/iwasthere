@@ -84,4 +84,21 @@ class LocationHelper(private val activity: Activity) {
             LocationManager.NETWORK_PROVIDER
         )
     }
+
+    companion object {
+        // An array of valid streets which the location should contain
+        private var validStreets = arrayOf("Ellermanstraat", "Italiëlei", "Noorderplaats")
+
+        /**
+         * Check if a provided location contains a certain address/street.
+         * If not, it is marked as suspicious.
+         */
+        fun locationIsSuspicious(location: LocationModel): Boolean {
+            validStreets.forEach {
+                return !location.address!!.contains(it)
+            }
+
+            return false
+        }
+    }
 }
