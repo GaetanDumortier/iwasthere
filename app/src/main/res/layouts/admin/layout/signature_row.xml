@@ -8,27 +8,37 @@
     <ImageView
         android:id="@+id/signatureImage"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/lblSignatureStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/apBlack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signatureImage" />
+
+    <TextView
         android:id="@+id/lblSignatureLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:textColor="@color/apBlack"
         android:layout_below="@+id/signatureImage"
+        android:textColor="@color/apBlack"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signatureImage" />
+        app:layout_constraintTop_toBottomOf="@+id/lblSignatureStudent" />
 
     <TextView
         android:id="@+id/lblSignatureDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
         android:textColor="@color/apBlack"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSignatureLocation" />
 
