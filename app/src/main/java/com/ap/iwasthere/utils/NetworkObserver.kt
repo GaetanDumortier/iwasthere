@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.ap.iwasthere.R
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * A class responsible for registering a network callback and observer
@@ -49,10 +50,11 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
                 layout.minimumWidth = view.width
 
                 snackbar?.show()
-                UIUtils().enableAllInput(view, false)
+                FirebaseDatabase.getInstance().goOnline()
+                // UIUtils().enableAllInput(view, false)
             } else {
                 snackbar?.dismiss()
-                UIUtils().enableAllInput(view, true)
+                //UIUtils().enableAllInput(view, true)
             }
         })
     }

@@ -2,6 +2,7 @@ package com.ap.iwasthere.activities.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -72,7 +73,11 @@ class AuthenticateActivity : AppCompatActivity() {
     private fun getAdminPassword() {
         FirebaseHelper().getAdminPassword(object : FirebaseCallback.ItemCallback {
             override fun onItemCallback(value: Any) {
-                this@AuthenticateActivity.adminPassword = value.toString()
+                if (value.toString().isNullOrEmpty()) {
+                    this@AuthenticateActivity.adminPassword = BuildConfig.ADMIN_PASSWORD
+                } else {
+                    this@AuthenticateActivity.adminPassword = value.toString()
+                }
             }
         })
     }

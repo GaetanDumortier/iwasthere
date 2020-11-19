@@ -80,8 +80,6 @@ class FirebaseHelper {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val student: Student? = snapshot.getValue(Student::class.java)
-                    Log.d(TAG, "snapshot: $snapshot")
-                    Log.d(TAG, "student: ${student.toString()}")
                     itemCallback?.onItemCallback(student!!)
                 }
             }
@@ -135,23 +133,21 @@ class FirebaseHelper {
      * @param itemCallback the callback to be executed once data is received
      */
     fun getAdminPassword(itemCallback: FirebaseCallback.ItemCallback?) {
-        rootRef.addValueEventListener(
-            rootRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    var adminPassword = ""
-                    if (snapshot.exists()) {
-                        if (snapshot.hasChild("admin_password")) {
-                            adminPassword = snapshot.child("admin_password").value.toString()
-                        }
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var adminPassword = ""
+                if (snapshot.exists()) {
+                    if (snapshot.hasChild("admin_password")) {
+                        adminPassword = snapshot.child("admin_password").value.toString()
                     }
-                    itemCallback?.onItemCallback(adminPassword)
                 }
+                itemCallback?.onItemCallback(adminPassword)
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(TAG, "Error executing getAdminPassword. Fallback password will be used. " + error.message)
-                    itemCallback?.onItemCallback(BuildConfig.ADMIN_PASSWORD)
-                }
-            })
-        )
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Error executing getAdminPassword. Fallback password will be used. " + error.message)
+                itemCallback?.onItemCallback(BuildConfig.ADMIN_PASSWORD)
+            }
+        })
     }
 }
