@@ -16,6 +16,7 @@ import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.student_details.*
 
 class StudentDetailsActivity : AppCompatActivity() {
+    private val SIGNATURES_AMOUNT = 5 // How many signatures to fetch
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var signatureAdapter: SignatureAdapter
     lateinit var student: Student
@@ -44,7 +45,7 @@ class StudentDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateView(student: Student) {
-        lblStudentName.text = student.fullName
+        lblStudentName.text = student.fullName!!
         lblStudentNumber.text = "12346578"
     }
 
@@ -61,7 +62,7 @@ class StudentDetailsActivity : AppCompatActivity() {
                 signatureAdapter.notifyDataSetChanged()
                 Log.d("StudentDetail", signatures.toString())
             }
-        }, 5)
+        }, SIGNATURES_AMOUNT)
     }
 
     //region Override functions

@@ -55,8 +55,7 @@ class FirebaseHelper {
                     val studentsList = ArrayList<Student>()
                     for (ds in snapshot.children) {
                         val student = ds.getValue(Student::class.java)
-                        student!!.setFullName()
-                        studentsList.add(student)
+                        studentsList.add(student!!)
                     }
                     listCallback?.onListCallback(studentsList)
                 }

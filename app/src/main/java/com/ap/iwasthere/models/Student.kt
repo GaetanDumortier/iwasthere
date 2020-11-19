@@ -2,6 +2,7 @@ package com.ap.iwasthere.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,11 +34,10 @@ class Student() : Parcelable {
             field = value
         }
 
+    @get: Exclude
     var fullName: String? = null
-        get() = field
-        // We can pre-define the fields here. Will never really change
-        set(value) {
-            field = """$firstName $lastName"""
+        get() {
+            return "$firstName $lastName"
         }
 
     var signatures: ArrayList<Signature> = ArrayList()
@@ -63,14 +63,12 @@ class Student() : Parcelable {
         id = parcel.readString()
         firstName = parcel.readString()
         lastName = parcel.readString()
-        setFullName()
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
         dest?.writeString(firstName)
         dest?.writeString(lastName)
-        setFullName()
     }
 
     override fun describeContents(): Int {
@@ -87,16 +85,8 @@ class Student() : Parcelable {
         }
     }
 
-    fun setFullName() {
-        this.fullName = "$firstName $lastName"
-    }
-
     override fun toString(): String {
-        if (this.fullName == null) {
-            this.setFullName()
-        }
-
-        return this.fullName!!
+        return fullName!!
     }
 
     fun formatLastName(name: String): String {
@@ -104,9 +94,6 @@ class Student() : Parcelable {
     }
 
     fun makeStudent(firstName: String, lastName: String): Student {
-        val student = Student(UUID.randomUUID().toString(), firstName, lastName)
-        student.setFullName()
-
-        return student
+        return Student(UUID.randomUUID().toString(), firstName, lastName)
     }
 }
