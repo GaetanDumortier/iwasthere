@@ -33,7 +33,7 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
-        UIUtils().configureSupportActionBar(this, getString(R.string.item_admin))
+        UIUtils().configureSupportActionBar(this, getString(R.string.item_misc))
         UIUtils().adminNavigationActionListener(this, navView)
         //endregion
 
