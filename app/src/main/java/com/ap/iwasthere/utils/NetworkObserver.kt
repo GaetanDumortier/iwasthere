@@ -50,11 +50,15 @@ class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
 
                 FirebaseDatabase.getInstance().goOffline()
                 snackbar?.show()
-                // UIUtils().enableAllInput(view, false)
+                if (view.sourceLayoutResId == R.layout.admin_settings) {
+                    UIUtils().enableAllInput(view, false)
+                }
             } else {
                 FirebaseDatabase.getInstance().goOnline()
                 snackbar?.dismiss()
-                //UIUtils().enableAllInput(view, true)
+                if (view.sourceLayoutResId == R.layout.admin_settings) {
+                    UIUtils().enableAllInput(view, true)
+                }
             }
         })
     }

@@ -55,6 +55,9 @@
         <activity
             android:name=".activities.admin.StudentDetailsActivity"
             android:parentActivityName=".activities.admin.StudentOverviewActivity" />
+        <activity
+            android:name=".activities.admin.AppSettingsActivity"
+            android:parentActivityName=".activities.admin.DashboardActivity" />
     </application>
 
 </manifest>

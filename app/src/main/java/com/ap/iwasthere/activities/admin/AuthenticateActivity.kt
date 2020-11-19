@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.student_select.navView
 
 class AuthenticateActivity : AppCompatActivity() {
     // When retrieving password from Firebase fails, the password from gradle.properties will be used
-    private var adminPassword = ""
+    private var adminPassword = BuildConfig.ADMIN_PASSWORD
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -73,9 +73,7 @@ class AuthenticateActivity : AppCompatActivity() {
     private fun getAdminPassword() {
         FirebaseHelper().getAdminPassword(object : FirebaseCallback.ItemCallback {
             override fun onItemCallback(value: Any) {
-                if (value.toString().isNullOrEmpty()) {
-                    this@AuthenticateActivity.adminPassword = BuildConfig.ADMIN_PASSWORD
-                } else {
+                if (value.toString().isNotEmpty()) {
                     this@AuthenticateActivity.adminPassword = value.toString()
                 }
             }

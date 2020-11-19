@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ap.iwasthere.R
+import com.ap.iwasthere.activities.admin.AppSettingsActivity
 import com.ap.iwasthere.activities.admin.AuthenticateActivity
 import com.ap.iwasthere.activities.admin.StudentAddActivity
 import com.ap.iwasthere.activities.admin.StudentOverviewActivity
@@ -99,18 +100,14 @@ class UIUtils {
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_admin -> {
-                    //if (view!!.sourceLayoutResId != R.layout.admin_authenticate) {
                     val intent = Intent(activity, AuthenticateActivity::class.java)
                     activity.startActivity(intent)
                     activity.finish()
-                    //}
                 }
                 R.id.item_start -> {
-                    //if (view!!.sourceLayoutResId != R.layout.student_select) {
                     val intent = Intent(activity, StudentSelectActivity::class.java)
                     activity.startActivity(intent)
                     activity.finish()
-                    //}
                 }
             }
             true
@@ -143,7 +140,8 @@ class UIUtils {
                     activity.finish()
                 }
                 R.id.admin_item_app_settings -> {
-                    // TODO: implement activity to AppSettingsActivity
+                    activity.startActivity(Intent(activity, AppSettingsActivity::class.java))
+                    activity.finish()
                 }
                 R.id.admin_item_app_sync -> {
                     // TODO: add activity for this and add callback in FirebaseHelper to show snackbar when done?

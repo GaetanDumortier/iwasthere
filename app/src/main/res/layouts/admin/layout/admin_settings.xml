@@ -6,73 +6,58 @@
     android:orientation="vertical"
     android:layout_gravity="end"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activities.admin.DashboardActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
-        android:id="@+id/layoutAdminStudentDetail"
-        android:padding="30dp"
-        android:orientation="vertical"
+        android:id="@+id/layoutAdminSettings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.admin.StudentDetailsActivity">
+        android:gravity="center_horizontal"
+        android:padding="30dp"
+        tools:context=".activities.admin.DashboardActivity">
 
         <TextView
-            android:id="@+id/lblStudentName"
+            android:id="@id/lblAdminPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/apBlack"
-            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:text="@string/label_change_password"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/lblStudentNumber"
+        <EditText
+            android:id="@+id/txtAdminPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/apBlack"
-            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:inputType="textPassword"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblStudentName" />
+            app:layout_constraintTop_toBottomOf="@+id/lblAdminPassword" />
 
         <Button
-            android:id="@+id/btnAllSignatures"
-            android:layout_width="250dp"
+            android:id="@+id/btnSettingsUpdate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="30dp"
-            android:text="@string/button_all_signatures"
+            android:layout_marginTop="10dp"
+            android:text="@string/button_save_changes"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/lblLastSignatures"
-            app:layout_constraintTop_toBottomOf="@+id/lblStudentName" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAdminPassword" />
 
         <TextView
-            android:id="@+id/lblLastSignatures"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="300dp"
-            android:text="@string/label_last_signatures"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.266"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblStudentName" />
-
-        <ListView
-            android:clickable="false"
-            android:id="@+id/signatureListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="150dp"
-            android:paddingTop="50dp"
+            android:text="Additional settings..."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblLastSignatures" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSettingsUpdate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

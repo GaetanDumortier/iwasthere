@@ -5,7 +5,9 @@ import com.ap.iwasthere.BuildConfig
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
+import kotlinx.coroutines.tasks.await
 
 
 /**
@@ -17,6 +19,7 @@ import com.google.firebase.database.*
  */
 class FirebaseHelper {
     private val TAG = "FirebaseHelper"
+    val DefaultAdminPassword = "iwasnotthere"
 
     private var rootRef = FirebaseDatabase.getInstance().reference
     private val studentsChild = "students"
@@ -140,7 +143,7 @@ class FirebaseHelper {
     fun getAdminPassword(itemCallback: FirebaseCallback.ItemCallback?) {
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var adminPassword = ""
+                var adminPassword = BuildConfig.ADMIN_PASSWORD
                 if (snapshot.exists()) {
                     if (snapshot.hasChild("admin_password")) {
                         adminPassword = snapshot.child("admin_password").value.toString()
@@ -154,5 +157,14 @@ class FirebaseHelper {
                 itemCallback?.onItemCallback(BuildConfig.ADMIN_PASSWORD)
             }
         })
+    }
+
+    /**
+     * Update the password of the admin interface.
+     *
+     * @param password the new password to be set
+     */
+    suspend fun setAdminPassword(password: String) {
+        rootRef.child("admin_password").setValue(password).await()
     }
 }

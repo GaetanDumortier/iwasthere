@@ -54,6 +54,11 @@
     <string name="button_all_signatures">Alle handtekeningen</string>
     <string name="button_delete_student">Verwijder student</string>
 
+    <!-- Admin AppSettingsActivity -->
+    <string name="label_change_password">Wachtwoord veranderen</string>
+    <string name="button_save_changes">Aanpassingen opslaan</string>
+
+
     <!--
     //
     // END ACTIVITIES
