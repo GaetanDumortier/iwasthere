@@ -2,18 +2,22 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
-import com.ap.iwasthere.helpers.LocationHelper
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SignatureHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.CanvasView
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_signature.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -26,6 +30,7 @@ import kotlin.coroutines.CoroutineContext
  */
 class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var canvasView: CanvasView
+    private lateinit var student: Student
 
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext
@@ -39,16 +44,14 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         NetworkObserver(applicationContext).observe(layoutStudentSignature, this)
         //endregion
 
-        val i = intent
-        val student: Student? = i.getParcelableExtra("student")
-        if (student == null) {
-            returnToSelectActivity()
-        }
+        student = intent.getParcelableExtra("student")!!
 
         //region UI
         supportActionBar?.title = getString(R.string.title_student_signature, student!!.firstName)
         initializeCanvas()
         //endregion
+
+        checkFirstSignature()
 
         //region View Listeners
         /**
@@ -92,11 +95,33 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         canvasView.requestFocus()
     }
 
+    private fun checkFirstSignature() {
+        val alert = buildAlertDialog()
+        FirebaseHelper().fetchAllSignaturesFromUser(student.id!!, object : FirebaseCallback.ListCallback {
+            override fun onListCallback(value: List<Any>) {
+                if (value.isEmpty()) {
+                    alert.show()
+                }
+            }
+        })
+    }
+
     private fun returnToSelectActivity() {
         val studentSelectIntent = Intent(this, StudentSelectActivity::class.java)
         startActivity(studentSelectIntent)
         studentSelectIntent.putExtra("reload", true)
         this.finish()
+    }
+
+    private fun buildAlertDialog(): AlertDialog.Builder {
+        val alertBuilder = AlertDialog.Builder(this)
+        alertBuilder.setTitle("Privacy waarschuwing")
+        alertBuilder.setMessage("Wanneer je verder gaat zal de app je locatie meesturen. Dit is nodig voor een correcte registratie.")
+        alertBuilder.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
+        alertBuilder.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
+        alertBuilder.setOnCancelListener { returnToSelectActivity() }
+
+        return alertBuilder
     }
 
     //region Override functions

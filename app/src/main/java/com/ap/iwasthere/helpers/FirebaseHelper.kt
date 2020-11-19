@@ -103,6 +103,7 @@ class FirebaseHelper {
             queryStr = signaturesRef.orderByValue().limitToFirst(limit)
         }
 
+        // TODO: add filter for studentId in querystring instead of in for-loop.
         queryStr.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -114,6 +115,8 @@ class FirebaseHelper {
                         }
                     }
                     listCallback?.onListCallback(signatures)
+                } else {
+                    listCallback?.onListCallback(emptyList())
                 }
             }
 
@@ -122,7 +125,6 @@ class FirebaseHelper {
                 listCallback?.onListCallback(emptyList())
             }
         })
-
     }
 
     /**

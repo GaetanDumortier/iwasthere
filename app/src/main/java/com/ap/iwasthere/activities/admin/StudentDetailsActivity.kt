@@ -22,7 +22,7 @@ class StudentDetailsActivity : AppCompatActivity() {
     private val SIGNATURES_AMOUNT = 5 // How many signatures to fetch
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var signatureAdapter: SignatureAdapter
-    lateinit var student: Student
+    private lateinit var student: Student
     private var signatures: ArrayList<Signature> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
