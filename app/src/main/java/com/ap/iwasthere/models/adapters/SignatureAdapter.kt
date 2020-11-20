@@ -2,8 +2,7 @@ package com.ap.iwasthere.models.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.util.Log
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,9 @@ import com.ap.iwasthere.models.Location
 import com.ap.iwasthere.models.Signature
 
 class SignatureAdapter(
-    context: Context, @LayoutRes private val layoutResource: Int, values: ArrayList<Signature>
+    context: Context,
+    @LayoutRes private val layoutResource: Int,
+    values: ArrayList<Signature>
 ) : ArrayAdapter<Signature>(context, layoutResource, values) {
 
     @SuppressLint("ViewHolder")
@@ -35,9 +36,14 @@ class SignatureAdapter(
         location.text = getItem(position)?.location?.address
         date.text = getItem(position)?.date
 
+        if (layoutResource == R.layout.signature_row) {
+            val studentName: TextView = cView.findViewById(R.id.lblSignatureStudentName)
+        }
+
         // Modify styling if the location is marked as suspicious
         if (LocationHelper.locationIsSuspicious(locationModel)) {
             location.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            location.setTypeface(null, Typeface.BOLD)
         }
 
         return cView

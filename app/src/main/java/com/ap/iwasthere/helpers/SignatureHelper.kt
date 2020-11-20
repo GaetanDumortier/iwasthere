@@ -93,7 +93,7 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
         val date = format.format(Date())
 
         signature = Signature(signatureId, date, this.location, resourceEncoded, student.id!!)
-        student.signatures.add(signature)
+        // student.signatures!!.add(signature)
 
         // Add the signature to the user in the database.
         FirebaseHelper().addSignature(signature, null)

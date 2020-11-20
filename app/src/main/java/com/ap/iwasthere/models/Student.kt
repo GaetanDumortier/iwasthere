@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * A class describing the actions and properties of the student class.
@@ -40,7 +41,7 @@ class Student() : Parcelable {
             return "$firstName $lastName"
         }
 
-    var signatures: ArrayList<Signature> = ArrayList()
+    var signatures: HashMap<String, Signature>? = HashMap()
         get() = field
         set(value) {
             field = value
@@ -53,22 +54,25 @@ class Student() : Parcelable {
      * @param firstName the first name of the student
      * @param lastName the last name of the student
      */
-    constructor(id: String, firstName: String?, lastName: String?) : this() {
+    constructor(id: String, firstName: String?, lastName: String?, signatures: HashMap<String, Signature>) : this() {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
+        this.signatures = signatures
     }
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()
         firstName = parcel.readString()
         lastName = parcel.readString()
+        signatures = parcel.readHashMap(Signature::class.java.classLoader) as HashMap<String, Signature>?
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
         dest?.writeString(firstName)
         dest?.writeString(lastName)
+        dest?.writeMap(signatures)
     }
 
     override fun describeContents(): Int {
@@ -94,6 +98,11 @@ class Student() : Parcelable {
     }
 
     fun makeStudent(firstName: String, lastName: String): Student {
-        return Student(UUID.randomUUID().toString(), firstName, lastName)
+        return Student(
+            UUID.randomUUID().toString(),
+            firstName,
+            lastName,
+            HashMap()
+        )
     }
 }

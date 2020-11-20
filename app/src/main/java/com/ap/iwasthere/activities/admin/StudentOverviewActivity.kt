@@ -56,7 +56,6 @@ class StudentOverviewActivity : AppCompatActivity() {
             val intent = Intent(this, StudentDetailsActivity::class.java)
             intent.putExtra("student", student)
             startActivity(intent)
-            finish()
         }
         //endregion
     }

@@ -84,12 +84,12 @@ class Signature() : Parcelable {
         return 0;
     }
 
-    companion object CREATOR : Parcelable.Creator<Student> {
-        override fun createFromParcel(parcel: Parcel): Student {
-            return Student(parcel)
+    companion object CREATOR : Parcelable.Creator<Signature> {
+        override fun createFromParcel(parcel: Parcel): Signature {
+            return Signature(parcel)
         }
 
-        override fun newArray(size: Int): Array<Student?> {
+        override fun newArray(size: Int): Array<Signature?> {
             return arrayOfNulls(size)
         }
     }

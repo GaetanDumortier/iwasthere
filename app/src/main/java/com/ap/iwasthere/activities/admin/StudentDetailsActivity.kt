@@ -1,8 +1,6 @@
 package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
@@ -17,8 +15,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class StudentDetailsActivity : AppCompatActivity() {
-    private val SIGNATURES_AMOUNT = 5 // How many signatures to fetch
-    private lateinit var toggle: ActionBarDrawerToggle
+    private val SIGNATURES_AMOUNT = 5 // How many signatures to fetch and show
     private lateinit var signatureAdapter: SignatureAdapter
     private lateinit var student: Student
     private var signatures: ArrayList<Signature> = ArrayList()
@@ -32,16 +29,14 @@ class StudentDetailsActivity : AppCompatActivity() {
         updateView(student)
 
         //region UI
-        toggle = UIUtils().setActionBarDrawerListener(this)
         UIUtils().configureSupportActionBar(this, student.fullName!!)
-        UIUtils().adminNavigationActionListener(this, navView)
 
-        signatureAdapter = SignatureAdapter(this, R.layout.signature_row, signatures)
+        signatureAdapter = SignatureAdapter(this, R.layout.student_signature_row, signatures)
         signatureListView.adapter = signatureAdapter
         //endregion
 
         //region Database
-        getSignatures()
+        getStudents()
         //endregion
     }
 
@@ -50,8 +45,11 @@ class StudentDetailsActivity : AppCompatActivity() {
         lblStudentNumber.text = "12346578"
     }
 
-    private fun getSignatures() {
-        FirebaseHelper().fetchAllSignaturesFromUser(student.id!!, object : FirebaseCallback.ListCallback {
+    /**
+     * Get all all students and their signatures from the database
+     */
+    private fun getStudents() {
+        FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
             override fun onListCallback(value: List<Any>) {
                 signatures.clear()
                 val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
@@ -65,13 +63,4 @@ class StudentDetailsActivity : AppCompatActivity() {
             }
         }, SIGNATURES_AMOUNT)
     }
-
-    //region Override functions
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    //endregion
 }

@@ -1,6 +1,7 @@
 package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -42,9 +43,7 @@ class SignatureOverviewActivity : AppCompatActivity() {
         //endregion
 
         //region Database
-        // TODO: link signature studentID's with students to display who the signature is from.
         getAllStudents()
-        getAllSignatures()
         //endregion
 
         //region View listeners
@@ -56,31 +55,23 @@ class SignatureOverviewActivity : AppCompatActivity() {
         //endregion
     }
 
-    private fun getAllSignatures() {
-        FirebaseHelper().fetchAllSignatures(object : FirebaseCallback.ListCallback {
-            override fun onListCallback(value: List<Any>) {
-                signatures.clear()
-                filteredSignatures.clear()
-                val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-                for (s in value) {
-                    signatures.add(s as Signature)
-                }
-                filteredSignatures.addAll(signatures)
-                signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
-                    LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
-                })
-                signatureAdapter.notifyDataSetChanged()
-            }
-        })
-    }
-
     private fun getAllStudents() {
         FirebaseHelper().fetchAllStudents(object : FirebaseCallback.ListCallback {
             override fun onListCallback(value: List<Any>) {
                 students.clear()
+                filteredSignatures.clear()
                 for (s in value) {
                     students.add(s as Student)
+                    s.signatures?.forEach {
+                        signatures.add(it.value)
+                    }
                 }
+
+                filteredSignatures.addAll(signatures)
+                val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+                signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
+                    LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
+                })
                 signatureAdapter.notifyDataSetChanged()
             }
         })

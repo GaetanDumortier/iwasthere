@@ -8,6 +8,7 @@ import com.ap.iwasthere.models.Student
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
 import kotlinx.coroutines.tasks.await
+import kotlin.math.sign
 
 
 /**
@@ -19,7 +20,6 @@ import kotlinx.coroutines.tasks.await
  */
 class FirebaseHelper {
     private val TAG = "FirebaseHelper"
-    val DefaultAdminPassword = "iwasnotthere"
 
     private var rootRef = FirebaseDatabase.getInstance().reference
     private val studentsChild = "students"
@@ -45,9 +45,16 @@ class FirebaseHelper {
      * @param signature the Signature object to add
      */
     fun addSignature(signature: Signature, itemCallback: FirebaseCallback.ItemCallback?) {
+        /*
         signaturesRef.child(signature.id!!).setValue(signature).addOnCompleteListener {
             itemCallback?.onItemCallback(signature)
         }
+        */
+
+        studentsRef.child(signature.studentId!!).child(signaturesChild).child(signature.id!!).setValue(signature)
+            .addOnCompleteListener {
+                itemCallback?.onItemCallback(signature)
+            }
     }
 
     /**
@@ -75,24 +82,20 @@ class FirebaseHelper {
         })
     }
 
-    /**
-     * Fetch a specific student from the database.
-     *
-     * @param studentId the unique identifier of the student to retrieve
-     * @param itemCallback the callback to be executed once data is received
-     */
     fun fetchStudentById(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
-        studentsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        studentsRef.child(studentId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val student: Student? = snapshot.getValue(Student::class.java)
+                    var student: Student? = null
+                    for (ds in snapshot.children) {
+                        student = ds.getValue(Student::class.java)!!
+                    }
                     itemCallback?.onItemCallback(student!!)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.d(TAG, "Error executing fetchStudentById: " + error.message)
-                itemCallback?.onItemCallback(Student())
+                Log.d(TAG, "Error executing fetchStudentById: ${error.message}")
             }
         })
     }
@@ -100,26 +103,30 @@ class FirebaseHelper {
     /**
      * Fetch all signatures from a provided student from the database.
      *
-     * @param studentId the unique identifier of the student to retrieve the signatures for
+     * @param student the student to retrieve the signatures for
      * @param listCallback the callback to be executed once data is received
      * @param limit the max amount of signatures to return (def. 0, disabled)
      */
-    fun fetchAllSignaturesFromUser(studentId: String, listCallback: FirebaseCallback.ListCallback?, limit: Int = 0) {
-        var queryStr = signaturesRef.orderByValue()
+    fun fetchAllSignaturesFromUser(student: Student, listCallback: FirebaseCallback.ListCallback?, limit: Int = 0) {
+        var queryStr = studentsRef
+            .child(student.id!!)
+            .child(signaturesChild)
+            .orderByValue()
         if (limit > 0) {
-            queryStr = signaturesRef.orderByValue().limitToFirst(limit)
+            queryStr = studentsRef
+                .child(student.id!!)
+                .child(signaturesChild)
+                .orderByValue()
+                .limitToFirst(limit)
         }
 
-        // TODO: add filter for studentId in querystring instead of in for-loop.
         queryStr.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val signatures: ArrayList<Signature> = ArrayList()
                     for (ds in snapshot.children) {
                         val signature = ds.getValue(Signature::class.java)
-                        if (signature!!.studentId.equals(studentId)) {
-                            signatures.add(signature)
-                        }
+                        signatures.add(signature!!)
                     }
                     listCallback?.onListCallback(signatures)
                 } else {

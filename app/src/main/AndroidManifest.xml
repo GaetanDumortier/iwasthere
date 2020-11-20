@@ -50,6 +50,9 @@
             android:name=".activities.admin.StudentOverviewActivity"
             android:parentActivityName=".activities.admin.DashboardActivity" />
         <activity
+            android:name=".activities.admin.SignatureOverviewActivity"
+            android:parentActivityName=".activities.admin.DashboardActivity" />
+        <activity
             android:name=".activities.admin.StudentAddActivity"
             android:parentActivityName=".activities.admin.DashboardActivity" />
         <activity

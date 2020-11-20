@@ -10,10 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ap.iwasthere.R
-import com.ap.iwasthere.activities.admin.AppSettingsActivity
-import com.ap.iwasthere.activities.admin.AuthenticateActivity
-import com.ap.iwasthere.activities.admin.StudentAddActivity
-import com.ap.iwasthere.activities.admin.StudentOverviewActivity
+import com.ap.iwasthere.activities.admin.*
 import com.ap.iwasthere.activities.student.StudentSelectActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -133,7 +130,8 @@ class UIUtils {
                     activity.finish()
                 }
                 R.id.admin_item_signatures -> {
-                    // TODO: implement activity to SignaturesOverviewActivity
+                    activity.startActivity(Intent(activity, SignatureOverviewActivity::class.java))
+                    activity.finish()
                 }
                 R.id.admin_item_student_add -> {
                     activity.startActivity(Intent(activity, StudentAddActivity::class.java))

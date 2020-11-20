@@ -97,7 +97,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
 
     private fun checkFirstSignature() {
         val alert = buildAlertDialog()
-        FirebaseHelper().fetchAllSignaturesFromUser(student.id!!, object : FirebaseCallback.ListCallback {
+        FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
             override fun onListCallback(value: List<Any>) {
                 if (value.isEmpty()) {
                     alert.show()

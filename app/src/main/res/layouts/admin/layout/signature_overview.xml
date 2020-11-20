@@ -44,9 +44,11 @@
 
         <ListView
             android:id="@+id/signatureOverviewList"
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:isScrollContainer="true"
+            android:paddingBottom="150dp"
+            android:paddingTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSearch" />
