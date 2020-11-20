@@ -19,6 +19,9 @@ import kotlinx.android.synthetic.main.signature_overview.navView
 import kotlinx.android.synthetic.main.signature_overview.txtSearch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 class SignatureOverviewActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -66,8 +69,8 @@ class SignatureOverviewActivity : AppCompatActivity() {
                         signatures.add(it.value)
                     }
                 }
-
                 filteredSignatures.addAll(signatures)
+
                 val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
                 signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
                     LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))

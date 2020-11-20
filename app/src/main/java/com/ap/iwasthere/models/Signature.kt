@@ -7,6 +7,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * A class describing the actions and properties of a student's registered signatures

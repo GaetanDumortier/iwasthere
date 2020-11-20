@@ -88,7 +88,6 @@
     <string name="item_signatures">Handtekeningen</string>
 
     <string name="item_misc">App instellingen</string>
-    <string name="item_sync">Data synchroniseren</string>
 
     <string name="admin_dashboard_subtitle">Selecteer een actie uit het menu.</string>
     <string name="admin_signout">Uitloggen</string>

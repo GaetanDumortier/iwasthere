@@ -141,9 +141,6 @@ class UIUtils {
                     activity.startActivity(Intent(activity, AppSettingsActivity::class.java))
                     activity.finish()
                 }
-                R.id.admin_item_app_sync -> {
-                    // TODO: add activity for this and add callback in FirebaseHelper to show snackbar when done?
-                }
             }
             true
         }

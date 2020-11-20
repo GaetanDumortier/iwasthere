@@ -32,11 +32,6 @@
                 android:id="@+id/admin_item_app_settings"
                 android:icon="@drawable/icon_settings"
                 android:title="@string/item_misc" />
-
-            <item
-                android:id="@+id/admin_item_app_sync"
-                android:icon="@drawable/icon_sync"
-                android:title="@string/item_sync" />
         </menu>
     </item>
 
