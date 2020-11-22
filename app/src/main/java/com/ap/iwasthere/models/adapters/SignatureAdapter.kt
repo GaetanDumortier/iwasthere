@@ -12,7 +12,9 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import com.ap.iwasthere.R
+import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.LocationHelper
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Location
 import com.ap.iwasthere.models.Signature
 
@@ -38,6 +40,15 @@ class SignatureAdapter(
 
         if (layoutResource == R.layout.signature_row) {
             val studentName: TextView = cView.findViewById(R.id.lblSignatureStudentName)
+            FirebaseHelper().fetchStudentNameById(
+                getItem(position)?.studentId!!,
+                object : FirebaseCallback.ItemCallback {
+                    override fun onItemCallback(value: Any) {
+                        if ((value as String).isNotEmpty()) {
+                            studentName.text = value
+                        }
+                    }
+                })
         }
 
         // Modify styling if the location is marked as suspicious

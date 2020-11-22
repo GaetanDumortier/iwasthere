@@ -93,15 +93,26 @@ class FirebaseHelper {
         })
     }
 
-    fun fetchStudentById(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
+    /**
+     * Get the student's name by provided identifier
+     *
+     * @param studentId the unique identifier of the student
+     */
+    fun fetchStudentNameById(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
         studentsRef.child(studentId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    var student: Student? = null
+                    var studentName: String? = null
+                    var firstName: String? = null
                     for (ds in snapshot.children) {
-                        student = ds.getValue(Student::class.java)!!
+                        if (ds.key.equals("firstName")) {
+                            firstName = ds.getValue(String::class.java)
+                        }
+                        if (ds.key.equals("lastName")) {
+                            studentName = "$firstName ${ds.getValue(String::class.java)}"
+                        }
                     }
-                    itemCallback?.onItemCallback(student!!)
+                    itemCallback?.onItemCallback(studentName!!)
                 }
             }
 

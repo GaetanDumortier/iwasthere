@@ -63,6 +63,7 @@ class SignatureOverviewActivity : AppCompatActivity() {
                         signatures.add(it.value)
                     }
                 }
+                // TODO: cleanup
                 filteredSignatures.addAll(signatures)
 
                 val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
@@ -87,6 +88,7 @@ class SignatureOverviewActivity : AppCompatActivity() {
             }
         }
 
+        // TODO: cleanup
         filteredSignatures.clear()
         filteredSignatures.addAll(filtered)
         val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
