@@ -45,17 +45,18 @@ class StudentOverviewActivity : AppCompatActivity() {
          * Search field: TextChangedListener.
          * Will filter the students list realtime with provided input.
          */
-        txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
-
-        /**
-         * StudentOverviewList: OnClickListener.
-         * Will show a detail page for selected student.
-         */
-        studentOverviewList.setOnItemClickListener { parent, _, position, _ ->
-            val student: Student = parent.getItemAtPosition(position) as Student
-            val intent = Intent(this, StudentDetailsActivity::class.java)
-            intent.putExtra("student", student)
-            startActivity(intent)
+        runOnUiThread {
+            txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
+            /**
+             * StudentOverviewList: OnClickListener.
+             * Will show a detail page for selected student.
+             */
+            studentOverviewList.setOnItemClickListener { parent, _, position, _ ->
+                val student: Student = parent.getItemAtPosition(position) as Student
+                val intent = Intent(this, StudentDetailsActivity::class.java)
+                intent.putExtra("student", student)
+                startActivity(intent)
+            }
         }
         //endregion
     }
@@ -89,12 +90,15 @@ class StudentOverviewActivity : AppCompatActivity() {
             }
         }
 
-        filteredStudents.clear()
-        filteredStudents.addAll(filtered)
-        filteredStudents.sortWith(Comparator { s1: Student, s2: Student ->
-            s1.fullName!!.compareTo(s2.fullName!!)
-        })
-        arrayAdapter.notifyDataSetChanged()
+        runOnUiThread {
+            filteredStudents.clear()
+            filteredStudents.addAll(filtered)
+            filteredStudents.sortWith(Comparator { s1: Student, s2: Student ->
+                s1.fullName!!.compareTo(s2.fullName!!)
+            })
+
+            arrayAdapter.notifyDataSetChanged()
+        }
     }
 
 

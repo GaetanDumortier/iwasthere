@@ -81,21 +81,27 @@ class SignatureOverviewActivity : AppCompatActivity() {
         if (input.isEmpty()) {
             filtered.addAll(signatures)
         } else {
-            for (s in signatures) {
-                if (s.date!!.toLowerCase().contains(input) || s.location!!.address!!.toLowerCase().contains(input)) {
-                    filtered.add(s)
+            runOnUiThread {
+                for (s in signatures) {
+                    if (s.date!!.toLowerCase().contains(input) || s.location!!.address!!.toLowerCase()
+                            .contains(input)
+                    ) {
+                        filtered.add(s)
+                    }
                 }
             }
         }
 
         // TODO: cleanup
-        filteredSignatures.clear()
-        filteredSignatures.addAll(filtered)
-        val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-        signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
-            LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
-        })
-        signatureAdapter.notifyDataSetChanged()
+        runOnUiThread {
+            filteredSignatures.clear()
+            filteredSignatures.addAll(filtered)
+            val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            signatures.sortWith(Comparator { s1: Signature, s2: Signature ->
+                LocalDateTime.parse(s2.date!!, dateFormat).compareTo(LocalDateTime.parse(s1.date!!, dateFormat))
+            })
+            signatureAdapter.notifyDataSetChanged()
+        }
     }
 
     //region Override functions
