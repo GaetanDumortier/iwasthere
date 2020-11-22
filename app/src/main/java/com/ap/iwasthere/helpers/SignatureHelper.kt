@@ -14,6 +14,7 @@ import java.io.FileOutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.thread
 
 /**
  * Getting the content of a Canvas and converting it to a Bitmap was a serious pain in the ass.
@@ -41,7 +42,6 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
         // Create a temporarily file in the cache directory which we will delete when bitmap has been generated.
         val file = File.createTempFile("signature", "jpg", activity.cacheDir)
         val ostream: FileOutputStream?
-
         try {
             ostream = FileOutputStream(file)
             val well: Bitmap = canvasView.getBitMap(canvasView)!!
@@ -57,16 +57,19 @@ class SignatureHelper(private val activity: Activity, private val canvasView: Ca
                 null
             )
 
-            save.compress(Bitmap.CompressFormat.JPEG, 100, ostream)
-            val encoded = bitMapToString(save)
-            buildSignature(student, encoded)
+            thread(true) {
+                save.compress(Bitmap.CompressFormat.JPEG, 100, ostream)
+                val encoded = bitMapToString(save)
+                buildSignature(student, encoded)
 
-            // Clean up resourced and handlers
-            ostream.flush()
-            ostream.close()
-            file.delete()
+                // Clean up resourced and handlers
+                ostream.flush()
+                ostream.close()
+                file.delete()
+            }
 
             success = true
+
         } catch (e: NullPointerException) {
             println("Error writing to file: " + e.printStackTrace())
         } catch (e: FileNotFoundException) {

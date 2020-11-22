@@ -56,37 +56,19 @@ class StudentSelectActivity : AppCompatActivity() {
 
         //region View Listeners
         /**
-         * StudentList: OnFocusChangeListener.
-         * Will check if the provided student is valid and show a message if not
+         * StudentList: OnItemClickListener.
+         * Will verify if the selected value is a valid student.
          */
-        txtStudentList.setOnFocusChangeListener { view, _ ->
-            if (txtStudentList != null && txtStudentList.text.isNotEmpty() && !isValidStudent()) {
+        txtStudentList.setOnItemClickListener { parent, view, pos, _ ->
+            if (!isValidStudent()) {
                 txtStudentList.text.clear()
 
                 SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
                     BaseTransientBottomBar.LENGTH_LONG
                 )
-            }
-        }
-
-        /**
-         * StudentList: OnItemClickListener.
-         * Will verify if the selected value is a valid student.
-         */
-        txtStudentList.setOnItemClickListener { parent, view, pos, _ ->
-            if (!isValidStudent()) {
-                if (txtStudentList != null) {
-                    txtStudentList.text.clear()
-                }
-
-                SnackbarHelper(view).makeAndShow(
-                    getString(R.string.invalid_student),
-                    BaseTransientBottomBar.LENGTH_LONG
-                )
             } else {
-                if (txtStudentList != null)
-                    txtStudentList.inputType = InputType.TYPE_NULL
+                txtStudentList.inputType = InputType.TYPE_NULL
 
                 // Set student object
                 this.student = parent.getItemAtPosition(pos) as Student
@@ -100,7 +82,7 @@ class StudentSelectActivity : AppCompatActivity() {
          * Will clear the view if it was set previously.
          */
         txtStudentList.setOnClickListener {
-            if (txtStudentList != null && txtStudentList.text.isNotEmpty()) {
+            if (txtStudentList.text.isNotEmpty()) {
                 txtStudentList.text.clear()
             }
             UIUtils().hideKeyboard(this, false)
@@ -145,6 +127,9 @@ class StudentSelectActivity : AppCompatActivity() {
     }
 
     private fun isValidStudent(): Boolean {
+        if (txtStudentList.text.isNullOrEmpty())
+            return false
+
         return this.students.toString().contains(txtStudentList.text.toString())
     }
 
