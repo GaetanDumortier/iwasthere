@@ -1,15 +1,18 @@
 package com.ap.iwasthere.activities.admin
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
+import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.models.adapters.SignatureAdapter
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_details.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -38,11 +41,54 @@ class StudentDetailsActivity : AppCompatActivity() {
         //region Database
         getStudents()
         //endregion
+
+        //region View listeners
+        /**
+         * DeleteStudent: OnClickListener.
+         * Delete the student and all signatures after confirmation
+         */
+        btnDeleteStudent.setOnClickListener { deleteStudent() }
+        //endregion
     }
 
     private fun updateView(student: Student) {
         lblStudentName.text = student.fullName!!
         lblStudentNumber.text = "12346578"
+    }
+
+    /**
+     * Prompt the user with an alert, asking for delete confirmation before proceeding.
+     * Return the user to the StudentOverviewActivity upon successful deletion.
+     */
+    private fun deleteStudent() {
+        val alert = UIUtils().buildAlertDialog(
+            this,
+            "Bevestigen",
+            "Ben je zeker dat je deze student wil verwijderen? Alle handtekeningen worden ook verwijderd."
+        )
+        alert.setPositiveButton("Ja") { dialog, _ ->
+            dialog.cancel()
+            FirebaseHelper().deleteStudent(student.id!!, object : FirebaseCallback.ItemCallback {
+                override fun onItemCallback(value: Any) {
+                    if (value as Boolean) {
+                        this@StudentDetailsActivity.startActivity(
+                            Intent(
+                                this@StudentDetailsActivity,
+                                StudentOverviewActivity::class.java
+                            )
+                        )
+                        this@StudentDetailsActivity.finish()
+                    } else {
+                        SnackbarHelper(layoutAdminStudentDetail).makeAndShow(
+                            "Er is iets fout gegaan tijdens het verwijderen van deze student!",
+                            Snackbar.LENGTH_LONG
+                        )
+                    }
+                }
+            })
+        }
+        alert.setNegativeButton("Annuleer") { dialog, _ -> dialog.cancel() }
+        alert.show()
     }
 
     /**

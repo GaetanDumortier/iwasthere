@@ -45,15 +45,25 @@ class FirebaseHelper {
      * @param signature the Signature object to add
      */
     fun addSignature(signature: Signature, itemCallback: FirebaseCallback.ItemCallback?) {
-        /*
-        signaturesRef.child(signature.id!!).setValue(signature).addOnCompleteListener {
-            itemCallback?.onItemCallback(signature)
-        }
-        */
-
         studentsRef.child(signature.studentId!!).child(signaturesChild).child(signature.id!!).setValue(signature)
             .addOnCompleteListener {
                 itemCallback?.onItemCallback(signature)
+            }
+    }
+
+    /**
+     * Remove a student with provided identifier from the database
+     * This will also remove all the signatures of this user
+     *
+     * @param studentId the unique identifier of the student
+     */
+    fun deleteStudent(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
+        studentsRef.child(studentId).removeValue()
+            .addOnSuccessListener {
+                itemCallback?.onItemCallback(true)
+            }
+            .addOnFailureListener {
+                itemCallback?.onItemCallback(false)
             }
     }
 
