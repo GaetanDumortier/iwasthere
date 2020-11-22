@@ -1,7 +1,6 @@
 package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -15,13 +14,8 @@ import com.ap.iwasthere.models.adapters.SignatureAdapter
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import kotlinx.android.synthetic.main.signature_overview.*
-import kotlinx.android.synthetic.main.signature_overview.navView
-import kotlinx.android.synthetic.main.signature_overview.txtSearch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.Comparator
-import kotlin.collections.ArrayList
 
 class SignatureOverviewActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle

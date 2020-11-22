@@ -3,7 +3,6 @@ package com.ap.iwasthere.activities.student
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -17,7 +16,6 @@ import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import kotlinx.android.synthetic.main.student_select.*
-import kotlin.collections.ArrayList
 
 
 /**

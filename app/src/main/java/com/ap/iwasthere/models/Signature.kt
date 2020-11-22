@@ -7,8 +7,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
 import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * A class describing the actions and properties of a student's registered signatures
@@ -18,30 +16,10 @@ import java.time.format.DateTimeFormatter
  */
 class Signature() : Parcelable {
     var id: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
     var date: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
     var location: Location? = null
-        get() = field
-        set(value) {
-            field = value
-        }
     var signature: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
     var studentId: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     /**
      * Constructor.
@@ -83,7 +61,7 @@ class Signature() : Parcelable {
     }
 
     override fun describeContents(): Int {
-        return 0;
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Signature> {

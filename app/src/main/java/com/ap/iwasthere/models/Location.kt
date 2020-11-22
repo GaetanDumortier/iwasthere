@@ -12,28 +12,12 @@ import java.util.*
  */
 class Location() : Parcelable {
     var id: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var locality: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var postalCode: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var address: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     /**
      * Constructor.
@@ -65,7 +49,7 @@ class Location() : Parcelable {
     }
 
     override fun describeContents(): Int {
-        return 0;
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Location> {

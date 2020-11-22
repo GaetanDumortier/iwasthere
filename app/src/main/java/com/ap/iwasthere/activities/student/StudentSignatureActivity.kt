@@ -2,7 +2,6 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
@@ -48,7 +47,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         student = intent.getParcelableExtra("student")!!
 
         //region UI
-        supportActionBar?.title = getString(R.string.title_student_signature, student!!.firstName)
+        supportActionBar?.title = getString(R.string.title_student_signature, student.firstName)
         initializeCanvas()
         //endregion
 

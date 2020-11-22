@@ -10,9 +10,7 @@ import com.ap.iwasthere.helpers.SnackbarHelper
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.admin_dashboard.*
 import kotlinx.android.synthetic.main.admin_settings.*
-import kotlinx.android.synthetic.main.admin_settings.navView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

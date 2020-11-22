@@ -4,7 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -18,22 +17,10 @@ import kotlin.collections.HashMap
  */
 class Student() : Parcelable {
     var id: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var firstName: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var lastName: String? = null
-        get() = field
-        set(value) {
-            field = value
-        }
 
     @get: Exclude
     var fullName: String? = null
@@ -42,10 +29,6 @@ class Student() : Parcelable {
         }
 
     var signatures: HashMap<String, Signature>? = HashMap()
-        get() = field
-        set(value) {
-            field = value
-        }
 
     /**
      * Constructor.
@@ -76,7 +59,7 @@ class Student() : Parcelable {
     }
 
     override fun describeContents(): Int {
-        return 0;
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Student> {

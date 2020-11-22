@@ -2,7 +2,6 @@ package com.ap.iwasthere
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.PermissionHelper
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
