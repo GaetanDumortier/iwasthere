@@ -12,6 +12,7 @@ import com.ap.iwasthere.models.CanvasView
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Student
 import com.ap.iwasthere.utils.NetworkObserver
+import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.student_signature.*
 import kotlinx.coroutines.CoroutineScope
@@ -96,7 +97,14 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun checkFirstSignature() {
-        val alert = buildAlertDialog()
+        val alert = UIUtils().buildAlertDialog(
+            this,
+            "Privacy waarschuwing",
+            "Wanneer je verder gaat zal de app je locatie meesturen. Dit is nodig voor een correcte registratie."
+        )
+        alert.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
+        alert.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
+        alert.setOnCancelListener { returnToSelectActivity() }
         FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
             override fun onListCallback(value: List<Any>) {
                 if (value.isEmpty()) {
@@ -111,17 +119,6 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         startActivity(studentSelectIntent)
         studentSelectIntent.putExtra("reload", true)
         this.finish()
-    }
-
-    private fun buildAlertDialog(): AlertDialog.Builder {
-        val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle("Privacy waarschuwing")
-        alertBuilder.setMessage("Wanneer je verder gaat zal de app je locatie meesturen. Dit is nodig voor een correcte registratie.")
-        alertBuilder.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
-        alertBuilder.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
-        alertBuilder.setOnCancelListener { returnToSelectActivity() }
-
-        return alertBuilder
     }
 
     //region Override functions

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ap.iwasthere.R
@@ -82,6 +83,25 @@ class UIUtils {
                 enableAllInput(child, enabled)
             }
         }
+    }
+
+    /**
+     * Build an alertdialog with provided title and message and return it.
+     * Should implement button action and action listeners accordingly.
+     *
+     * @param context the context where the dialog should be shown
+     * @param title the title of the dialog
+     * @param message the message shown in the dialog
+     */
+    fun buildAlertDialog(context: Context, title: String, message: String): AlertDialog.Builder {
+        val alertBuilder = AlertDialog.Builder(context)
+        alertBuilder.setTitle(title)
+        alertBuilder.setMessage(message)
+        //alertBuilder.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
+        //alertBuilder.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
+        //alertBuilder.setOnCancelListener { returnToSelectActivity() }
+
+        return alertBuilder
     }
 
     /**
