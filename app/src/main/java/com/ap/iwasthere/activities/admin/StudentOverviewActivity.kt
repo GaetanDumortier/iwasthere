@@ -40,13 +40,13 @@ class StudentOverviewActivity : AppCompatActivity() {
         getAllStudents()
         //endregion
 
-        //region View listeners
+        //region View listenersS
         /**
          * Search field: TextChangedListener.
          * Will filter the students list realtime with provided input.
          */
         runOnUiThread {
-            txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
+            txtSearch.addTextChangedListener { filterList(txtSearch.text.toString().toLowerCase()) }
             /**
              * StudentOverviewList: OnClickListener.
              * Will show a detail page for selected student.
@@ -84,7 +84,10 @@ class StudentOverviewActivity : AppCompatActivity() {
             filtered.addAll(students)
         } else {
             for (s in students) {
-                if (s.fullName!!.toLowerCase().contains(input.toLowerCase())) {
+                if (s.fullName!!.toLowerCase().contains(input)
+                    || s.number!!.toLowerCase()
+                        .contains(input)
+                ) {
                     filtered.add(s)
                 }
             }

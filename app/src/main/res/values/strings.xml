@@ -46,6 +46,7 @@
     <string name="btn_add">Toevoegen</string>
     <string name="add_label">Naam (voor + achternaam)</string>
     <string name="add_hint">Gescheiden door komma of new line</string>
+    <string name="format_hint">Formaat: {s-nummer};{voornaam achternaam}</string>
 
     <!-- Admin: Student/SignatureOverviewActivity -->
     <string name="filter_name">Filter</string>

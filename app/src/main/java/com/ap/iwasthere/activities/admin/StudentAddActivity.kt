@@ -1,7 +1,6 @@
 package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -35,11 +34,10 @@ class StudentAddActivity : AppCompatActivity() {
         //endregion
     }
 
-    private fun addStudent(name: String) {
+    private fun addStudent(name: String, number: String) {
         val nameArray = name.split("\\s".toRegex())
         val lastName = nameArray.drop(1).toString().replace("[", "").replace("]", "").replace(",", "")
-        val student = Student().makeStudent(nameArray[0], lastName)
-        Log.d("StudentAdd", student.toString())
+        val student = Student().makeStudent(nameArray[0], lastName, number)
 
         FirebaseHelper().addStudent(student, object : FirebaseCallback.ItemCallback {
             override fun onItemCallback(value: Any) {
@@ -56,12 +54,16 @@ class StudentAddActivity : AppCompatActivity() {
         val text = txtStudentName.text
         if (text.contains(",")) {
             for (line in text.split(",")) {
-                addStudent(line.trim())
+                line.trim()
+                val value = line.split(";")
+                addStudent(value[1], value[0])
             }
         } else {
-            text.lines().forEach {
-                if (it.isNotEmpty()) {
-                    addStudent(it.trim())
+            text.lines().forEach { s ->
+                s.trim()
+                if (s.isNotEmpty()) {
+                    val value = s.split(";")
+                    addStudent(value[1], value[0])
                 }
             }
         }

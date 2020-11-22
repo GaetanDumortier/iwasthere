@@ -52,8 +52,8 @@ class StudentDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateView(student: Student) {
-        lblStudentName.text = student.fullName!!
-        lblStudentNumber.text = "12346578"
+        lblStudentName.text = student.fullName
+        lblStudentNumber.text = student.number
     }
 
     /**

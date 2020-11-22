@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.signature_overview.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+
 class SignatureOverviewActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var signatureAdapter: SignatureAdapter
@@ -49,7 +50,7 @@ class SignatureOverviewActivity : AppCompatActivity() {
          * Search field: TextChangedListener.
          * Will filter the students list realtime with provided input.
          */
-        txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
+        txtSearch.addTextChangedListener { filterList(txtSearch.text.toString().toLowerCase()) }
 
         /**
          * InvalidLocations switch: OnClickListener.
@@ -96,7 +97,6 @@ class SignatureOverviewActivity : AppCompatActivity() {
     }
 
     private fun filterList(input: String) {
-        input.toLowerCase()
         val filtered = ArrayList<Signature>()
         if (input.isEmpty()) {
             filtered.addAll(signatures)

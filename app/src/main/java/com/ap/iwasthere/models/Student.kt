@@ -22,6 +22,8 @@ class Student() : Parcelable {
 
     var lastName: String? = null
 
+    var number: String? = null
+
     @get: Exclude
     var fullName: String? = null
         get() {
@@ -36,11 +38,19 @@ class Student() : Parcelable {
      * @param id the unique identifier of the student
      * @param firstName the first name of the student
      * @param lastName the last name of the student
+     * @param number the unique identifier of the student used by the school (studentnumber)
      */
-    constructor(id: String, firstName: String?, lastName: String?, signatures: HashMap<String, Signature>) : this() {
+    constructor(
+        id: String,
+        firstName: String?,
+        lastName: String?,
+        number: String?,
+        signatures: HashMap<String, Signature>
+    ) : this() {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
+        this.number = number
         this.signatures = signatures
     }
 
@@ -48,6 +58,7 @@ class Student() : Parcelable {
         id = parcel.readString()
         firstName = parcel.readString()
         lastName = parcel.readString()
+        number = parcel.readString()
         signatures = parcel.readHashMap(Signature::class.java.classLoader) as HashMap<String, Signature>?
     }
 
@@ -55,6 +66,7 @@ class Student() : Parcelable {
         dest?.writeString(id)
         dest?.writeString(firstName)
         dest?.writeString(lastName)
+        dest?.writeString(number)
         dest?.writeMap(signatures)
     }
 
@@ -73,18 +85,19 @@ class Student() : Parcelable {
     }
 
     override fun toString(): String {
-        return fullName!!
+        return "$fullName ($number)"
     }
 
     fun formatLastName(name: String): String {
         return name.replace("[", "").replace("]", "").replace(",", "")
     }
 
-    fun makeStudent(firstName: String, lastName: String): Student {
+    fun makeStudent(firstName: String, lastName: String, number: String): Student {
         return Student(
             UUID.randomUUID().toString(),
             firstName,
             lastName,
+            number,
             HashMap()
         )
     }

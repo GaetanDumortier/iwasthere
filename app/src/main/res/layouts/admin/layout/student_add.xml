@@ -58,14 +58,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblName" />
 
-            <Button
-                android:id="@+id/btnStudentAdd"
+            <TextView
+                android:id="@+id/infoFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/btn_add"
+                android:layout_marginTop="3dp"
+                android:text="@string/format_hint"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtStudentName" />
+                app:layout_constraintTop_toBottomOf="@+id/infoName" />
 
             <EditText
                 android:id="@+id/txtStudentName"
@@ -74,9 +76,19 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|top"
                 android:inputType="textMultiLine|textNoSuggestions"
+                android:hint="s0123456;John Doe,s00487;Jane Doe"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoName" />
+                app:layout_constraintTop_toBottomOf="@+id/infoFormat" />
+
+            <Button
+                android:id="@+id/btnStudentAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_add"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtStudentName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
