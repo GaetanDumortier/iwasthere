@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
+import com.ap.iwasthere.helpers.LocationHelper
 import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.models.Signature
 import com.ap.iwasthere.models.Student
@@ -49,6 +50,25 @@ class SignatureOverviewActivity : AppCompatActivity() {
          * Will filter the students list realtime with provided input.
          */
         txtSearch.addTextChangedListener { filterList(txtSearch.text.toString()) }
+
+        /**
+         * InvalidLocations switch: OnClickListener.
+         * Will filter the signatures list for all signatures
+         * that are marked with a suspicious location.
+         */
+        switchShowInvalidLocations.setOnClickListener {
+            if (switchShowInvalidLocations.isChecked) {
+                val list =
+                    filteredSignatures.filter { LocationHelper.locationIsSuspicious(it.location!!) } as ArrayList<Signature>
+                filteredSignatures.clear()
+                filteredSignatures.addAll(list)
+            } else {
+                txtSearch.text.clear()
+                filteredSignatures.clear()
+                filteredSignatures.addAll(signatures)
+            }
+            signatureAdapter.notifyDataSetChanged()
+        }
         //endregion
     }
 
@@ -83,8 +103,8 @@ class SignatureOverviewActivity : AppCompatActivity() {
         } else {
             runOnUiThread {
                 for (s in signatures) {
-                    if (s.date!!.toLowerCase().contains(input) || s.location!!.address!!.toLowerCase()
-                            .contains(input)
+                    if (s.location!!.address!!.toLowerCase().contains(input)
+                        || s.date!!.toLowerCase().contains(input)
                     ) {
                         filtered.add(s)
                     }

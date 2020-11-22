@@ -48,7 +48,8 @@
     <string name="add_hint">Gescheiden door komma of new line</string>
 
     <!-- Admin: Student/SignatureOverviewActivity -->
-    <string name="filter_name">Filter op naam</string>
+    <string name="filter_name">Filter</string>
+    <string name="switch_invalid_locations">Locatie niet on-campus</string>
 
     <!-- Admin StudentDetailActivity -->
     <string name="label_last_signatures">Laatste handtekeningen</string>
