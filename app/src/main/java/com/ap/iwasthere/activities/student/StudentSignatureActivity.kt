@@ -116,7 +116,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
     private fun returnToSelectActivity() {
         val studentSelectIntent = Intent(this, StudentSelectActivity::class.java)
         startActivity(studentSelectIntent)
-        studentSelectIntent.putExtra("reload", true)
+        // studentSelectIntent.putExtra("reload", true)
         this.finish()
     }
 

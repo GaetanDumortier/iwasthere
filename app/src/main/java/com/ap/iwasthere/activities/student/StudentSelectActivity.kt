@@ -36,11 +36,6 @@ class StudentSelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.student_select)
 
-        val isReload = intent.getBooleanExtra("reload", false)
-        if (isReload) {
-            this.recreate()
-        }
-
         //region Observers
         NetworkObserver(applicationContext).observe(layoutStudentSelect, this)
         //endregion
@@ -65,7 +60,7 @@ class StudentSelectActivity : AppCompatActivity() {
          * Will check if the provided student is valid and show a message if not
          */
         txtStudentList.setOnFocusChangeListener { view, _ ->
-            if (txtStudentList.text.isNotEmpty() && !isValidStudent()) {
+            if (txtStudentList != null && txtStudentList.text.isNotEmpty() && !isValidStudent()) {
                 txtStudentList.text.clear()
 
                 SnackbarHelper(view).makeAndShow(
@@ -81,14 +76,17 @@ class StudentSelectActivity : AppCompatActivity() {
          */
         txtStudentList.setOnItemClickListener { parent, view, pos, _ ->
             if (!isValidStudent()) {
-                txtStudentList.text.clear()
+                if (txtStudentList != null) {
+                    txtStudentList.text.clear()
+                }
 
                 SnackbarHelper(view).makeAndShow(
                     getString(R.string.invalid_student),
                     BaseTransientBottomBar.LENGTH_LONG
                 )
             } else {
-                txtStudentList.inputType = InputType.TYPE_NULL
+                if (txtStudentList != null)
+                    txtStudentList.inputType = InputType.TYPE_NULL
 
                 // Set student object
                 this.student = parent.getItemAtPosition(pos) as Student
@@ -102,7 +100,7 @@ class StudentSelectActivity : AppCompatActivity() {
          * Will clear the view if it was set previously.
          */
         txtStudentList.setOnClickListener {
-            if (txtStudentList.text.isNotEmpty()) {
+            if (txtStudentList != null && txtStudentList.text.isNotEmpty()) {
                 txtStudentList.text.clear()
             }
             UIUtils().hideKeyboard(this, false)
