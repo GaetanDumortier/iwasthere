@@ -48,6 +48,16 @@ class StudentDetailsActivity : AppCompatActivity() {
          * Delete the student and all signatures after confirmation
          */
         btnDeleteStudent.setOnClickListener { deleteStudent() }
+
+        /**
+         * AllSignatures: OnClickListener.
+         * Show all current signatures of this user
+         */
+        btnAllSignatures.setOnClickListener {
+            val intent = Intent(this, StudentAllSignatures::class.java)
+            intent.putExtra("student", student)
+            startActivity(intent)
+        }
         //endregion
     }
 

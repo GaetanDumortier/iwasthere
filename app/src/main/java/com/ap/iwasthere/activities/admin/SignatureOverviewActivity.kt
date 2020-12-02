@@ -29,7 +29,7 @@ class SignatureOverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signature_overview)
-        NetworkObserver(applicationContext).observe(layoutAdminSignatureOverview, this)
+        NetworkObserver(applicationContext).observe(layoutAdminStudentSignatures, this)
 
         //region UI
         toggle = UIUtils().setActionBarDrawerListener(this)
