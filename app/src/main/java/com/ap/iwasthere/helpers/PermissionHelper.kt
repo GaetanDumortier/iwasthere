@@ -3,6 +3,8 @@ package com.ap.iwasthere.helpers
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -18,6 +20,11 @@ import com.ap.iwasthere.activities.student.StudentSelectActivity
  * @since 14 November 2020
  */
 class PermissionHelper(private val activity: AppCompatActivity) {
+    fun checkOverlayPermission() {
+        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$activity.packageName"))
+        activity.startActivity(intent)
+    }
+
     /**
      * Check the current permissions of the application against the required permission.
      * If they are not granted, it will prompt again.
@@ -49,15 +56,21 @@ class PermissionHelper(private val activity: AppCompatActivity) {
             activity.startActivity(intent)
             activity.finish()
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
+            if (
+                ActivityCompat.shouldShowRequestPermissionRationale(
                     activity,
                     Manifest.permission.ACCESS_FINE_LOCATION
-                )
+                ) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
             ) {
-                // User denied permissions once (Deny)
-                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                // User denied permissions once
+                ActivityCompat.requestPermissions(
+                    activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA),
+                    1
+                )
             } else {
-                // User denied permissions permanently (Deny & don't ask again)
+                // User denied permissions permanently
                 val intent = Intent(activity, PermissionErrorActivity::class.java)
                 activity.startActivity(intent)
                 activity.finish()

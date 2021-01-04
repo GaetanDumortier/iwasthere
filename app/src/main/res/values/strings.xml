@@ -20,6 +20,9 @@
     <string name="signature_submit">Bevestigen</string>
     <string name="signature_reset">Wissen</string>
     <string name="signature_saved">Handtekening opgeslagen!</string>
+    <string name="privacyalert_title">Privacy waarschuwing</string>
+    <string name="privacyalert_message">Wanneer je verder gaat zal de app de camera gebruiken om gezichtsherkenning toe te passen. Ook zal je locatie worden meegestuurd. Dit is vereist voor een correcte registratie.</string>
+    <string name="privacyalert_message_location">Wanneer je verder gaat zal de app je locatie opvragen en meesturen. Dit is vereist voor een correcte registratie.</string>
 
     <!-- SignatureDoneActivity -->
     <string name="signature_done">Je bent successvol geregistreerd!</string>
@@ -58,9 +61,9 @@
     <string name="button_delete_student">Verwijder student</string>
 
     <!-- Admin AppSettingsActivity -->
-    <string name="label_change_password">Wachtwoord veranderen</string>
-    <string name="button_save_changes">Aanpassingen opslaan</string>
-
+    <string name="label_change_password">Wachtwoord aanpassen</string>
+    <string name="button_save_changes">Wachtwoord opslaan</string>
+    <string name="label_togglefacialdetection">Gezichtsherkenning ingeschakeld</string>
 
     <!--
     //

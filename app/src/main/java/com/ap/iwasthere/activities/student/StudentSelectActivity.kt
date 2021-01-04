@@ -102,6 +102,8 @@ class StudentSelectActivity : AppCompatActivity() {
                     BaseTransientBottomBar.LENGTH_LONG
                 )
             } else {
+                // startService(Intent(this, CameraService::class.java))
+
                 // Start intent
                 val intent = Intent(this, StudentSignatureActivity::class.java)
                 intent.putExtra("student", this.student)

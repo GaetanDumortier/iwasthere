@@ -26,7 +26,6 @@ class FirebaseHelper {
     private val studentsChild = "students"
     private val signaturesChild = "signatures"
     private val studentsRef = rootRef.child(studentsChild)
-    private val signaturesRef = rootRef.child(signaturesChild)
 
     /**
      * Add a new provided student to the database.
@@ -171,19 +170,39 @@ class FirebaseHelper {
      */
     fun getAdminPassword(itemCallback: FirebaseCallback.ItemCallback?) {
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            var adminPassword = BuildConfig.ADMIN_PASSWORD
             override fun onDataChange(snapshot: DataSnapshot) {
-                var adminPassword = BuildConfig.ADMIN_PASSWORD
-                if (snapshot.exists()) {
-                    if (snapshot.hasChild("admin_password")) {
-                        adminPassword = snapshot.child("admin_password").value.toString()
-                    }
+                if (snapshot.exists() && snapshot.hasChild("admin_password")) {
+                    adminPassword = snapshot.child("admin_password").value.toString()
                 }
                 itemCallback?.onItemCallback(adminPassword)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d(TAG, "Error executing getAdminPassword. Fallback password will be used. " + error.message)
-                itemCallback?.onItemCallback(BuildConfig.ADMIN_PASSWORD)
+                itemCallback?.onItemCallback(adminPassword)
+            }
+        })
+    }
+
+    /**
+     * Check whether facial detection is enabled in the database or not.
+     *
+     * @param itemCallback the callback to be executed once data is received
+     */
+    fun isFaceDetectionEnabled(itemCallback: FirebaseCallback.ItemCallback?) {
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            var facialDetection = false // disable by default I guess
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists() && snapshot.hasChild("facedetection")) {
+                    facialDetection = snapshot.child("facedetection").value.toString().toBoolean()
+                }
+                itemCallback?.onItemCallback(facialDetection)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Error executing isFaceDetectionEnabled. Defaulting to true. " + error.message)
+                itemCallback?.onItemCallback(facialDetection)
             }
         })
     }
@@ -195,5 +214,14 @@ class FirebaseHelper {
      */
     suspend fun setAdminPassword(password: String) {
         rootRef.child("admin_password").setValue(password).await()
+    }
+
+    /**
+     * Enable or disable the face detection
+     *
+     * @param value the new value to be set (true|false)
+     */
+    suspend fun setFaceDetection(value: Boolean) {
+        rootRef.child("facedetection").setValue(value).await()
     }
 }

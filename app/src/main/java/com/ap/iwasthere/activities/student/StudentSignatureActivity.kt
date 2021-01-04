@@ -2,6 +2,7 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
@@ -51,7 +52,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         initializeCanvas()
         //endregion
 
-        checkFirstSignature()
+        showPrivacyWarning()
 
         //region View Listeners
         /**
@@ -95,19 +96,39 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
         canvasView.requestFocus()
     }
 
-    private fun checkFirstSignature() {
-        val alert = UIUtils().buildAlertDialog(
-            this,
-            "Privacy waarschuwing",
-            "Wanneer je verder gaat zal de app je locatie meesturen. Dit is nodig voor een correcte registratie."
-        )
-        alert.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
-        alert.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
-        alert.setOnCancelListener { returnToSelectActivity() }
-        FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
-            override fun onListCallback(value: List<Any>) {
-                if (value.isEmpty()) {
-                    alert.show()
+    /**
+     * Show an alert dialog to the user if it's their first time using the app.
+     * The alert will inform the user about some aspects of the application that could concern privacy,
+     * such as current location and capturing the user's face with the camera
+     */
+    private fun showPrivacyWarning() {
+        var facialDetection: Boolean
+        FirebaseHelper().isFaceDetectionEnabled(object: FirebaseCallback.ItemCallback {
+            override fun onItemCallback(value: Any) {
+                if (value.toString().isNotEmpty()) {
+                    facialDetection = value.toString().toBoolean()
+
+                    // Lets just wrap the entire alertdialog in this callback to make things easier
+                    var message = getString(R.string.privacyalert_message_location) // default
+                    if (facialDetection) {
+                        message = getString(R.string.privacyalert_message)
+                    }
+
+                    val alert = UIUtils().buildAlertDialog(
+                        this@StudentSignatureActivity,
+                        getString(R.string.privacyalert_title),
+                        message
+                    )
+                    alert.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
+                    alert.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
+                    alert.setOnCancelListener { returnToSelectActivity() }
+                    FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
+                        override fun onListCallback(value: List<Any>) {
+                            if (value.isEmpty()) {
+                                alert.show()
+                            }
+                        }
+                    })
                 }
             }
         })
