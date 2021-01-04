@@ -57,9 +57,9 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
 
                     UIUtils().hideKeyboard(this@AppSettingsActivity, true)
                     txtAdminPassword.text.clear()
-                    SnackbarHelper(it).makeAndShow("Instellingen opgeslagen!", Snackbar.LENGTH_SHORT)
+                    SnackbarHelper(it).makeAndShow(getString(R.string.settings_saved), Snackbar.LENGTH_SHORT)
                 } else {
-                    SnackbarHelper(it).makeAndShow("Je hebt geen (geldig) wachtwoord ingevuld!", Snackbar.LENGTH_SHORT)
+                    SnackbarHelper(it).makeAndShow(getString(R.string.settings_password_invalid), Snackbar.LENGTH_SHORT)
                 }
             }
         }
@@ -71,7 +71,7 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
         switchFacialDetection.setOnClickListener {
             launch {
                 FirebaseHelper().setFaceDetection(switchFacialDetection.isChecked)
-                SnackbarHelper(it).makeAndShow("Instellingen opgeslagen!", Snackbar.LENGTH_SHORT)
+                SnackbarHelper(it).makeAndShow(getString(R.string.settings_saved), Snackbar.LENGTH_SHORT)
             }
         }
         //endregion

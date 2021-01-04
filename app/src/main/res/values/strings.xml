@@ -20,9 +20,12 @@
     <string name="signature_submit">Bevestigen</string>
     <string name="signature_reset">Wissen</string>
     <string name="signature_saved">Handtekening opgeslagen!</string>
+
     <string name="privacyalert_title">Privacy waarschuwing</string>
     <string name="privacyalert_message">Wanneer je verder gaat zal de app de camera gebruiken om gezichtsherkenning toe te passen. Ook zal je locatie worden meegestuurd. Dit is vereist voor een correcte registratie.</string>
     <string name="privacyalert_message_location">Wanneer je verder gaat zal de app je locatie opvragen en meesturen. Dit is vereist voor een correcte registratie.</string>
+    <string name="privacyalert_positive">Oke</string>
+    <string name="privacyalert_negative">Dit wil ik niet</string>
 
     <!-- SignatureDoneActivity -->
     <string name="signature_done">Je bent successvol geregistreerd!</string>
@@ -99,5 +102,8 @@
 
     <string name="authenticate_password">Wachtwoord</string>
     <string name="authenticate_login">Inloggen</string>
+
+    <string name="settings_saved">Instellingen opgeslagen!</string>
+    <string name="settings_password_invalid">Je hebt geen (geldig) wachtwoord ingevuld!</string>
 
 </resources>

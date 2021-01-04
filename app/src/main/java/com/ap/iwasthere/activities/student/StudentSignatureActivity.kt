@@ -2,7 +2,6 @@ package com.ap.iwasthere.activities.student
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
@@ -103,7 +102,7 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
      */
     private fun showPrivacyWarning() {
         var facialDetection: Boolean
-        FirebaseHelper().isFaceDetectionEnabled(object: FirebaseCallback.ItemCallback {
+        FirebaseHelper().isFaceDetectionEnabled(object : FirebaseCallback.ItemCallback {
             override fun onItemCallback(value: Any) {
                 if (value.toString().isNotEmpty()) {
                     facialDetection = value.toString().toBoolean()
@@ -119,8 +118,8 @@ class StudentSignatureActivity : AppCompatActivity(), CoroutineScope {
                         getString(R.string.privacyalert_title),
                         message
                     )
-                    alert.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
-                    alert.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
+                    alert.setPositiveButton(getString(R.string.privacyalert_positive)) { dialog, _ -> dialog.dismiss() }
+                    alert.setNegativeButton(getString(R.string.privacyalert_negative)) { dialog, _ -> dialog.cancel() }
                     alert.setOnCancelListener { returnToSelectActivity() }
                     FirebaseHelper().fetchAllSignaturesFromUser(student, object : FirebaseCallback.ListCallback {
                         override fun onListCallback(value: List<Any>) {
