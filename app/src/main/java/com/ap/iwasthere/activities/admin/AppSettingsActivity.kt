@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
 import com.ap.iwasthere.helpers.FirebaseHelper
 import com.ap.iwasthere.helpers.SnackbarHelper
+import com.ap.iwasthere.models.FirebaseCallback
 import com.ap.iwasthere.utils.NetworkObserver
 import com.ap.iwasthere.utils.UIUtils
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +34,14 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
         toggle = UIUtils().setActionBarDrawerListener(this)
         UIUtils().configureSupportActionBar(this, getString(R.string.item_misc))
         UIUtils().adminNavigationActionListener(this, navView)
+
+        FirebaseHelper().isFaceDetectionEnabled(object : FirebaseCallback.ItemCallback {
+            override fun onItemCallback(value: Any) {
+                if (value.toString().isNotEmpty()) {
+                    switchFacialDetection.isChecked = value.toString().toBoolean()
+                }
+            }
+        })
         //endregion
 
         //region View listeners.
@@ -52,6 +61,17 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
                 } else {
                     SnackbarHelper(it).makeAndShow("Je hebt geen (geldig) wachtwoord ingevuld!", Snackbar.LENGTH_SHORT)
                 }
+            }
+        }
+
+        /**
+         * SettingsUpdate: ClickListener.
+         * Toggle the facial detection functionality for signatures
+         */
+        switchFacialDetection.setOnClickListener {
+            launch {
+                FirebaseHelper().setFaceDetection(switchFacialDetection.isChecked)
+                SnackbarHelper(it).makeAndShow("Instellingen opgeslagen!", Snackbar.LENGTH_SHORT)
             }
         }
         //endregion

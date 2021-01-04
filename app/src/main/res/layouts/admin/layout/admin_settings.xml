@@ -50,12 +50,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtAdminPassword" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/switchFacialDetection"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:text="Additional settings..."
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15dp"
+            android:text="@string/label_togglefacialdetection"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnSettingsUpdate" />
 
