@@ -9,9 +9,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.util.Log
 
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 
 import kotlinx.coroutines.tasks.await
@@ -19,7 +16,6 @@ import kotlinx.coroutines.tasks.await
 import java.util.*
 
 import com.ap.iwasthere.models.Location as LocationModel
-
 
 /**
  * A simple helper class to fetch the last known location of the device.
@@ -32,10 +28,7 @@ class LocationHelper(private val activity: Activity) {
     private var TAG: String = "LocationHelper"
 
     private var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-    lateinit var locationRequest: LocationRequest
-
     private var geocoder: Geocoder = Geocoder(activity.applicationContext, Locale.getDefault())
-    private var location: Location? = null
 
     suspend fun getLocation(): LocationModel {
         var location: LocationModel? = null
@@ -58,26 +51,6 @@ class LocationHelper(private val activity: Activity) {
         return fusedLocationProviderClient.lastLocation.await()
     }
 
-    /*
-    private fun fetchNewLocation() {
-        locationRequest = LocationRequest()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 0
-        locationRequest.fastestInterval = 0
-        locationRequest.numUpdates = 1
-
-        fusedLocationProviderClient!!.requestLocationUpdates(
-            locationRequest, locationCallback, Looper.myLooper()
-        )
-    }
-     */
-
-    private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(p0: LocationResult) {
-            location = p0.lastLocation
-        }
-    }
-
     private fun isLocationEnabled(): Boolean {
         val locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -87,6 +60,7 @@ class LocationHelper(private val activity: Activity) {
 
     companion object {
         // An array of valid streets which the location should contain
+        // TODO: Refactor this to make more sense
         private var validStreets = arrayOf("Ellermanstraat", "Italiëlei", "Noorderplaats")
 
         /**
