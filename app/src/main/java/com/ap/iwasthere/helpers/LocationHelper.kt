@@ -33,7 +33,8 @@ class LocationHelper(private val activity: Activity) {
 
     @WorkerThread
     suspend fun getLocation(): LocationModel {
-        var location: LocationModel? = null
+        var location: LocationModel =
+            LocationModel().makeLocation("Fout bij ophalen locatie", "", "") // fallback if null
         val loc = getLastLocation()
         if (loc != null) {
             val addressList = geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
@@ -41,7 +42,7 @@ class LocationHelper(private val activity: Activity) {
             location = LocationModel().makeLocation(address.locality, address.postalCode, address.getAddressLine(0))
         }
 
-        return location!!
+        return location
     }
 
     private suspend fun getLastLocation(): Location? {
