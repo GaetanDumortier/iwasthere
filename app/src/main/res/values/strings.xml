@@ -67,6 +67,7 @@
     <string name="label_change_password">Wachtwoord aanpassen</string>
     <string name="button_save_changes">Wachtwoord opslaan</string>
     <string name="label_togglefacialdetection">Gezichtsherkenning ingeschakeld</string>
+    <string name="wipe_database">Database legen</string>
 
     <!--
     //
@@ -105,5 +106,6 @@
 
     <string name="settings_saved">Instellingen opgeslagen!</string>
     <string name="settings_password_invalid">Je hebt geen (geldig) wachtwoord ingevuld!</string>
+    <string name="settings_database_wiped">Database leeggemaakt!</string>
 
 </resources>

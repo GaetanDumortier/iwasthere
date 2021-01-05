@@ -74,6 +74,15 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
                 SnackbarHelper(it).makeAndShow(getString(R.string.settings_saved), Snackbar.LENGTH_SHORT)
             }
         }
+
+        /**
+         * SettingsUpdate: ClickListener.
+         * Wipe all students (incl. signatures) from the database
+         */
+        btnWipeDatabase.setOnClickListener {
+            FirebaseHelper().wipeDatabase()
+            SnackbarHelper(it).makeAndShow(getString(R.string.settings_database_wiped), Snackbar.LENGTH_SHORT)
+        }
         //endregion
     }
 

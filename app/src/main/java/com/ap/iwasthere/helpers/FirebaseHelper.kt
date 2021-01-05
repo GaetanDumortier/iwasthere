@@ -28,6 +28,14 @@ class FirebaseHelper {
     private val studentsRef = rootRef.child(studentsChild)
 
     /**
+     * Wipe all entries under the database students node (including signatures)
+     * Not gonna handle any callbacks here, just delete immediately without error-checking etc.
+     */
+    fun wipeDatabase() {
+        studentsRef.removeValue()
+    }
+
+    /**
      * Add a new provided student to the database.
      *
      * @param student the student object to add
