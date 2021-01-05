@@ -8,6 +8,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.util.Log
+import androidx.annotation.WorkerThread
 
 import com.google.android.gms.location.LocationServices
 
@@ -30,6 +31,7 @@ class LocationHelper(private val activity: Activity) {
     private var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
     private var geocoder: Geocoder = Geocoder(activity.applicationContext, Locale.getDefault())
 
+    @WorkerThread
     suspend fun getLocation(): LocationModel {
         var location: LocationModel? = null
         val loc = getLastLocation()

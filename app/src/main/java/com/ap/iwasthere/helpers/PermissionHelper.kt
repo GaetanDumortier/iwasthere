@@ -21,8 +21,10 @@ import com.ap.iwasthere.activities.student.StudentSelectActivity
  */
 class PermissionHelper(private val activity: AppCompatActivity) {
     fun checkOverlayPermission() {
-        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$activity.packageName"))
-        activity.startActivity(intent)
+        if (!Settings.canDrawOverlays(activity)) {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$activity.packageName"))
+            activity.startActivity(intent)
+        }
     }
 
     /**

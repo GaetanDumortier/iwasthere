@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         PermissionHelper(this).checkPermissions()
-        PermissionHelper(this).checkOverlayPermission()
+        // PermissionHelper(this).checkOverlayPermission()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
