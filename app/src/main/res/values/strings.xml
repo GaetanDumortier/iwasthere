@@ -54,6 +54,9 @@
     <string name="add_hint">Gescheiden door komma of new line</string>
     <string name="format_hint">Formaat: {s-nummer};{voornaam achternaam}</string>
 
+    <string name="dialog_student_exists_title">Bestaand student</string>
+    <string name="dialog_student_exists_message">Een student met dit studentennummer bestaat reeds!</string>
+
     <!-- Admin: Student/SignatureOverviewActivity -->
     <string name="filter_name">Filter</string>
     <string name="switch_invalid_locations">Locatie niet on-campus</string>
@@ -112,5 +115,9 @@
     <string name="dialog_confirm_message">Ben je zeker? Dit kan niet ongedaan worden gemaakt.</string>
     <string name="dialog_positive">Ja</string>
     <string name="dialog_negative">Nee</string>
+
+    <string name="dialog_positive_ok">Oke</string>
+    <string name="dialog_negative_cancel">Annuleer</string>
+
 
 </resources>

@@ -101,6 +101,25 @@ class FirebaseHelper {
     }
 
     /**
+     * Verify whether a student with the provided identifier already exists or not
+     *
+     * @param studentId the unique identifier of the student to verify
+     */
+    fun studentExists(studentId: String, itemCallback: FirebaseCallback.ItemCallback?) {
+        studentsRef.orderByChild("number").equalTo(studentId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    itemCallback?.onItemCallback(snapshot.exists())
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(TAG, "Error executing studentExists. onCancelled thrown: " + error.message)
+                    itemCallback?.onItemCallback(false)
+                }
+            })
+    }
+
+    /**
      * Get the student's name by provided identifier
      *
      * @param studentId the unique identifier of the student

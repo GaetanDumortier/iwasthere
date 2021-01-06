@@ -34,6 +34,59 @@ class StudentAddActivity : AppCompatActivity() {
         //endregion
     }
 
+    /**
+     * Check whether a student with the provided student ID already exists in the database
+     *
+     * @param studentId the unique identifier of the student
+     */
+    private fun studentExists(name: String, studentId: String) {
+        FirebaseHelper().studentExists(studentId, object : FirebaseCallback.ItemCallback {
+            override fun onItemCallback(value: Any) {
+                if (value as Boolean) {
+                    val alert = UIUtils().buildAlertDialog(
+                        this@StudentAddActivity,
+                        getString(R.string.dialog_student_exists_title),
+                        getString(R.string.dialog_student_exists_message)
+                    )
+                    alert.setPositiveButton(getString(R.string.dialog_positive_ok)) { dialog, _ -> dialog.dismiss() }
+                    alert.setOnCancelListener { dialog -> dialog.cancel() }
+                    alert.show()
+                } else {
+                    addStudent(name, studentId)
+                }
+            }
+        })
+    }
+
+    /**
+     * Check which splitter is used to add students (either comma or semicolon) and format accordingly
+     */
+    private fun checkSplitter() {
+        val text = txtStudentName.text
+        if (text.contains(",")) {
+            text.lines().forEach { s ->
+                if (s.isNotEmpty()) {
+                    val value = s.trim().split(",")
+                    studentExists(value[1].trim(), value[0].trim())
+                }
+            }
+        } else {
+            text.lines().forEach { s ->
+                if (s.isNotEmpty()) {
+                    val value = s.trim().split(";")
+                    // addStudent(value[1], value[0])
+                    studentExists(value[1], value[0])
+                }
+            }
+        }
+    }
+
+    /**
+     * Add a new student to the database with provided data
+     *
+     * @param name the formatted full name of the student
+     * @param number the unique identifier of the student
+     */
     private fun addStudent(name: String, number: String) {
         val nameArray = name.split("\\s".toRegex())
         val lastName = nameArray.drop(1).toString().replace("[", "").replace("]", "").replace(",", "")
@@ -48,25 +101,6 @@ class StudentAddActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun checkSplitter() {
-        val text = txtStudentName.text
-        if (text.contains(",")) {
-            for (line in text.split(",")) {
-                line.trim()
-                val value = line.split(";")
-                addStudent(value[1], value[0])
-            }
-        } else {
-            text.lines().forEach { s ->
-                s.trim()
-                if (s.isNotEmpty()) {
-                    val value = s.split(";")
-                    addStudent(value[1], value[0])
-                }
-            }
-        }
     }
 
     //region Override functions
