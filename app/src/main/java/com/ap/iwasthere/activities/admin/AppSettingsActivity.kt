@@ -2,6 +2,7 @@ package com.ap.iwasthere.activities.admin
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.ap.iwasthere.R
@@ -80,10 +81,26 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
          * Wipe all students (incl. signatures) from the database
          */
         btnWipeDatabase.setOnClickListener {
-            FirebaseHelper().wipeDatabase()
-            SnackbarHelper(it).makeAndShow(getString(R.string.settings_database_wiped), Snackbar.LENGTH_SHORT)
+            wipeDatabase(it) // lets just pass the view here to make it easy lol
         }
         //endregion
+    }
+
+    private fun wipeDatabase(view: View) {
+        val alert = UIUtils().buildAlertDialog(
+            this,
+            getString(R.string.dialog_confirm_title),
+            getString(R.string.dialog_confirm_message)
+        )
+        alert.setPositiveButton(getString(R.string.dialog_positive)) { dialog, _ ->
+            run {
+                dialog.dismiss()
+                FirebaseHelper().wipeDatabase()
+                SnackbarHelper(view).makeAndShow(getString(R.string.settings_database_wiped), Snackbar.LENGTH_SHORT)
+            }
+        }
+        alert.setNegativeButton(getString(R.string.dialog_negative)) { dialog, _ -> dialog.cancel() }
+        alert.setOnCancelListener { dialog -> dialog.cancel() }
     }
 
     private suspend fun updateAdminPassword(password: String) {

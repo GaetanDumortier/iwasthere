@@ -107,5 +107,10 @@
     <string name="settings_saved">Instellingen opgeslagen!</string>
     <string name="settings_password_invalid">Je hebt geen (geldig) wachtwoord ingevuld!</string>
     <string name="settings_database_wiped">Database leeggemaakt!</string>
+    <string name="dialog_confirm_title">Bevestigen</string>
+
+    <string name="dialog_confirm_message">Ben je zeker? Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="dialog_positive">Ja</string>
+    <string name="dialog_negative">Nee</string>
 
 </resources>
