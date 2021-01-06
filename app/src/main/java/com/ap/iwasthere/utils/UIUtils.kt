@@ -97,9 +97,6 @@ class UIUtils {
         val alertBuilder = AlertDialog.Builder(context)
         alertBuilder.setTitle(title)
         alertBuilder.setMessage(message)
-        //alertBuilder.setPositiveButton("Oke") { dialog, _ -> dialog.dismiss() }
-        //alertBuilder.setNegativeButton("Dit wil ik niet") { dialog, _ -> dialog.cancel() }
-        //alertBuilder.setOnCancelListener { returnToSelectActivity() }
 
         return alertBuilder
     }

@@ -101,6 +101,7 @@ class AppSettingsActivity : AppCompatActivity(), CoroutineScope {
         }
         alert.setNegativeButton(getString(R.string.dialog_negative)) { dialog, _ -> dialog.cancel() }
         alert.setOnCancelListener { dialog -> dialog.cancel() }
+        alert.show()
     }
 
     private suspend fun updateAdminPassword(password: String) {
