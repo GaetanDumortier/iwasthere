@@ -44,7 +44,8 @@ class AuthenticateActivity : AppCompatActivity() {
          */
         btnAuthenticate.setOnClickListener {
             if (authenticate()) {
-                val intent = Intent(this, DashboardActivity::class.java)
+                // val intent = Intent(this, DashboardActivity::class.java)
+                val intent = Intent(this, StudentOverviewActivity::class.java)
                 startActivity(intent)
                 this.finish()
             } else {
